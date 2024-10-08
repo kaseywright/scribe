@@ -53,14 +53,25 @@
   ],
   "scripts": {
     "prepare": "yarn run clean",
-    "development": "yarn build:style && yarn build",
-    "production": "yarn build:style && yarn build",
+    "development": "yarn build",
+    "build": "yarn build:style && yarn build:ts",
+    "production": "yarn build:style && yarn build:ts",
     "clean": "rimraf lib node_modules *.tsbuildinfo",
-    "build": "tsc -b",
+    "build:ts": "tsc -b",
     "lint": "eslint --ext js,jsx,ts,tsx src",
     "lint:fix": "eslint --ext js,jsx,ts,tsx src --fix",
     "update:theia": "ts-node ../../scripts/update-theia-version.ts",
     "update:next": "ts-node ../../scripts/update-theia-version.ts next",
-    "build:style": "npx tailwindcss -i ./src/browser/styles/globals.css -o ./lib/browser/output-tailwind.css"
+    "build:style": "npx tailwindcss -i ./src/browser/styles/globals.css -o ./lib/browser/output-tailwind.css",
+    "watch": "npm-watch build"
+  },
+  "watch": {
+    "build": {
+      "patterns": [
+        "src/**/*"
+      ],
+      "extensions": "ts,html,scss,css,tsx,json",
+      "quiet": false
+    }
   }
 }

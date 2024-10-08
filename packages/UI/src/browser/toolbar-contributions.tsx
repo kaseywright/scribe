@@ -9,6 +9,8 @@ import { WorkspaceService } from "@theia/workspace/lib/browser";
 import { AbstractToolbarContribution } from "@theia/toolbar/lib/browser/abstract-toolbar-contribution";
 import { ReactInteraction } from "@theia/toolbar/lib/browser/toolbar-constants";
 import { ToolbarContribution } from "@theia/toolbar/lib/browser/toolbar-interfaces";
+import { IconFolders } from "@tabler/icons-react";
+import { RESOURCE_PICKER_OPEN_DIALOG } from "scribe-resources-manager/lib/browser/commands";
 
 export const LAYOUT_COMMAND = {
   id: "scribe.layout.view",
@@ -38,8 +40,6 @@ export const NOTIFICATION_COMMAND = {
   label: "Show Notifications",
 };
 
-
-
 export const bindAllToolbarContributions = (bind: interfaces.Bind) => {
   bind(LayoutsToolbarContribution).toSelf().inSingletonScope();
   bind(ToolbarContribution).to(LayoutsToolbarContribution);
@@ -66,8 +66,9 @@ export class LayoutsToolbarContribution
     this.doHandleSaveClick(e);
   protected handleOpenClick = (e: ReactInteraction<HTMLSpanElement>): void =>
     this.doHandleOpenClick(e);
-  protected handleNotificationClick = (e: ReactInteraction<HTMLSpanElement>): void =>
-    this.doHandleNotificationClick(e);
+  protected handleNotificationClick = (
+    e: ReactInteraction<HTMLSpanElement>
+  ): void => this.doHandleNotificationClick(e);
   protected handleLockClick = (e: ReactInteraction<HTMLSpanElement>): void =>
     this.doHandleNotificationClick(e);
   protected doHandleLayoutClick(e: ReactInteraction<HTMLSpanElement>): void {
@@ -87,14 +88,29 @@ export class LayoutsToolbarContribution
     e.stopPropagation();
     this.commandService.executeCommand(OPEN_COMMAND.id);
   }
-  protected doHandleNotificationClick(e: ReactInteraction<HTMLSpanElement>): void {
+  protected doHandleNotificationClick(
+    e: ReactInteraction<HTMLSpanElement>
+  ): void {
     e.stopPropagation();
     this.commandService.executeCommand(NOTIFICATION_COMMAND.id);
   }
   render(): React.ReactNode {
     return (
       <div className="toolbar-wrapper">
-          <div
+        <div
+          role="button"
+          tabIndex={0}
+          className="item enabled toolbar-item action-label"
+          id="easy-save-item-icon"
+          onClick={() => {
+            this.commandService.executeCommand(RESOURCE_PICKER_OPEN_DIALOG.id);
+          }}
+          title="Open Resources"
+        >
+          <IconFolders stroke={2} />
+          <span>Resources</span>
+        </div>
+        <div
           role="button"
           tabIndex={0}
           className="item enabled toolbar-item action-label"
@@ -116,7 +132,7 @@ export class LayoutsToolbarContribution
           <div className="codicon codicon-layout" />
           <span>Layout</span>
         </div>
-      
+
         <div
           role="button"
           tabIndex={0}

@@ -29,7 +29,7 @@ export class MainEditorLeftWidget extends ReactWidget {
     this.id = MainEditorLeftWidget.ID;
     this.title.label = MainEditorLeftWidget.LABEL;
     this.title.caption = MainEditorLeftWidget.LABEL;
-    this.title.closable = false;
+    this.title.closable = true;
 
     this.update();
   }
@@ -75,8 +75,6 @@ export class MainEditorLeftContribution
   }
 
   async onStart(app: FrontendApplication): Promise<void> {
-    this.stateService
-      .reachedState("ready")
-      .then(() => this.openView({ reveal: true, area: "main" }));
+    this.stateService.reachedState("ready");
   }
 }

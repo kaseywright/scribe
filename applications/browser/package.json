@@ -1,0 +1,38 @@
+{
+  "private": true,
+  "name": "scribe-browser",
+  "version": "0.0.0",
+  "dependencies": {
+    "@svgr/webpack": "^8.1.0",
+    "@theia/core": "1.51.0",
+    "@theia/editor": "1.51.0",
+    "@theia/filesystem": "1.51.0",
+    "@theia/markers": "1.51.0",
+    "@theia/messages": "1.51.0",
+    "@theia/monaco": "1.51.0",
+    "@theia/navigator": "1.51.0",
+    "@theia/preferences": "1.51.0",
+    "@theia/process": "1.51.0",
+    "@theia/workspace": "1.51.0",
+    "@theia/vsx-registry": "1.51.0",
+    "@theia/plugin-ext": "1.51.0",
+    "@theia/plugin-ext-vscode": "1.51.0",
+    "scribe-ui": "0.0.1",
+    "scribe-resources-manager": "0.0.1"
+  },
+  "devDependencies": {
+    "@theia/cli": "1.51.0"
+  },
+  "scripts": {
+    "bundle": "yarn rebuild && theia build --mode development",
+    "prepare": "yarn run clean",
+    "rebuild": "theia rebuild:browser --cacheRoot ../..",
+    "start": "theia start",
+    "watch": "yarn rebuild && theia build --watch --mode development",
+    "clean": "theia clean && rimraf .browser_modules dist node_modules",
+    "build": "yarn bundle"
+  },
+  "theia": {
+    "target": "browser"
+  }
+}
