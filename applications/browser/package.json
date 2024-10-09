@@ -18,7 +18,8 @@
     "@theia/plugin-ext": "1.51.0",
     "@theia/plugin-ext-vscode": "1.51.0",
     "scribe-ui": "0.0.1",
-    "scribe-resources-manager": "0.0.1"
+    "scribe-resources-manager": "0.0.1",
+    "@scribe/theia-utils": "0.0.1"
   },
   "devDependencies": {
     "@theia/cli": "1.51.0"

@@ -20,7 +20,8 @@
     "lucide-react": "^0.378.0",
     "npm-watch": "^0.13.0",
     "react-resizable-panels": "^2.0.19",
-    "tailwind-merge": "^2.3.0"
+    "tailwind-merge": "^2.3.0",
+    "@scribe/theia-utils": "0.0.1"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
