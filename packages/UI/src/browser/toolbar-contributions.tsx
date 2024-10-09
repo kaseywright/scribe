@@ -10,7 +10,11 @@ import { AbstractToolbarContribution } from "@theia/toolbar/lib/browser/abstract
 import { ReactInteraction } from "@theia/toolbar/lib/browser/toolbar-constants";
 import { ToolbarContribution } from "@theia/toolbar/lib/browser/toolbar-interfaces";
 import { IconFolders } from "@tabler/icons-react";
-import { RESOURCE_PICKER_OPEN_DIALOG } from "scribe-resources-manager/lib/browser/commands";
+
+export const RESOURCE_PICKER_OPEN_DIALOG = {
+  id: "resource-picker.open-dialog",
+  label: "Open Resource Picker Dialog",
+};
 
 export const LAYOUT_COMMAND = {
   id: "scribe.layout.view",

@@ -8,7 +8,6 @@
     "clean": "lerna clean && rimraf node_modules",
     "build:browser": "lerna run build --ignore scribe-electron",
     "build:electron": "lerna run build --ignore browser --ignore scribe-electron && yarn --cwd applications/electron build:highMemory",
-    "prepare": "lerna run prepare",
     "postinstall": "theia check:theia-version",
     "build:dev": "lerna run development",
     "build:prod": "lerna run production",

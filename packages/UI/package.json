@@ -52,7 +52,6 @@
     "src"
   ],
   "scripts": {
-    "prepare": "yarn run clean",
     "development": "yarn build",
     "build": "yarn build:style && yarn build:ts",
     "production": "yarn build:style && yarn build:ts",

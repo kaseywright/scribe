@@ -1,18 +1,5 @@
-import {
-  nls,
-  type CommandContribution,
-  type CommandRegistry,
-  type MenuContribution,
-  type MenuModelRegistry,
-} from "@theia/core";
-import {
-  ApplicationShell,
-  codicon,
-  CommonCommands,
-  CommonMenus,
-} from "@theia/core/lib/browser";
-
-import { ToolbarDefaultsOverride } from "scribe-ui/lib/browser/toolbar-defaults-override";
+import { type CommandContribution, type CommandRegistry } from "@theia/core";
+import { ApplicationShell } from "@theia/core/lib/browser";
 
 import {
   inject,
