@@ -157,16 +157,13 @@ export function VirtualizedCombobox({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <div className="">
-          <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+        <div className="flex flex-1 gap-1 flex-row-reverse items-center">
+          <Search className="mr-2 h-4 w-4 shrink-0 opacity-50  hidden" />
           <Button
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="justify-between"
-            style={{
-              width: width,
-            }}
+            className=" dark:border-cyan-900 py-0  flex-1 bg-cyan-100 hover:bg-cyan-200 dark:bg-cyan-950  border-cyan-300 text-cyan-700  font-semibold flex items-center justify-center uppercase "
           >
             {selectedOption
               ? options.find((option) => option.value === selectedOption)?.label

@@ -23,7 +23,7 @@ const TranslationWordsHeader = ({
 
   return (
     <div
-      className="flex items-center border-b py-2.5 px-2 dark:border-zinc-900 border-zinc-200 justify-between"
+      className="flex items-center gap-3  border-b py-2.5 px-2 dark:border-zinc-900 border-zinc-200 justify-between"
       ref={panelRef}
     >
       <div className="flex items-center gap-2">
@@ -60,7 +60,7 @@ const TranslationWordsHeader = ({
           </button>
         </Badge>
       </div>
-      <div className="flex items-center gap-[5px]">
+      <div className="flex flex-1 items-center justify-end gap-[5px]">
         <TranslationWordSearch
           listWidth={listWidth}
           words={words}
