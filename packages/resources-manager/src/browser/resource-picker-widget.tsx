@@ -98,9 +98,9 @@ export class ResourcesPickerWidget extends ReactDialog<void> {
       <div className="w-[90vw] h-[80vh] flex relative gap-3 justify-between">
         <Tabs
           defaultValue={allUngroupedResources[0].id}
-          className="w-full flex"
+          className="w-full flex "
         >
-          <TabsList className="flex flex-col w-1/4 h-fit">
+          <TabsList className="flex flex-col w-1/6 h-fit mr-3 ">
             {resourcesGroups.map((group) => (
               <div key={group.id} className="flex flex-col gap-2 w-full">
                 <h1>{group.name}</h1>
@@ -115,7 +115,7 @@ export class ResourcesPickerWidget extends ReactDialog<void> {
               </div>
             ))}
           </TabsList>
-          <div className="w-3/4">
+          <div className="border-l border-gray-300 min-h-full px-10 flex-1">
             {allUngroupedResources.map((resource) => (
               <TabsContent value={resource.id}>
                 <ResourceTypeDisplay
