@@ -27,11 +27,12 @@ export const usfmBibleResource: ScribeResource<
   displayLabel: "Bible",
   icon: <IconBook />,
 
-  getTableDisplayData: async () => {
+  getTableDisplayData: async (query?: string) => {
     try {
       const data = await fetchDoor43ResourceDisplayData(usfmBibleResource.id, {
         subject: "Bible",
         metadataType: "rc",
+        query: query || "",
       });
       return data ?? [];
     } catch (error) {

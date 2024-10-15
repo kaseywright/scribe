@@ -78,11 +78,17 @@ export const fetchDoor43ResourceDisplayData = async (
     [x: string]: string;
     subject: string;
     metadataType: string;
+    query: string;
   }
 ) => {
   const urlParams = new URLSearchParams(params);
 
-  const resourceUrl = `https://git.door43.org/api/v1/catalog/search?${urlParams.toString()}`;
+  let resourceUrl: string;
+  params.query && params.query.trim().length > 0
+    ? (resourceUrl = `https://git.door43.org/api/v1/catalog/search?${urlParams.toString()}&q=${encodeURIComponent(
+        params.query
+      )}`)
+    : (resourceUrl = `https://git.door43.org/api/v1/catalog/search?${urlParams.toString()}`);
 
   const response = await fetch(resourceUrl);
 

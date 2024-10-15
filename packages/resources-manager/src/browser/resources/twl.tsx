@@ -21,7 +21,7 @@ export const twlResource: ScribeResource<Door43RepoResponse> = {
   displayLabel: "Words List",
   icon: <IconLink />,
 
-  getTableDisplayData: async () => {
+  getTableDisplayData: async (query?: string) => {
     const resourceUrl = `https://git.door43.org/api/v1/catalog/search?subject=TSV Translation Words Links&metadataType=rc`;
     const response = await fetch(resourceUrl);
     const responseJson = (await response.json()) as Door43ApiResponse;

@@ -12,11 +12,12 @@ export const twResource: ScribeResource<Door43RepoResponse, TranslationWord[]> =
     id: "codex.tw",
     displayLabel: "Words",
     icon: <IconLink />,
-    getTableDisplayData: async () => {
+    getTableDisplayData: async (query?: string) => {
       try {
         const data = await fetchDoor43ResourceDisplayData(twResource.id, {
           subject: "Translation Words",
           metadataType: "rc",
+          query: query || "",
         });
         return data ?? [];
       } catch (error) {

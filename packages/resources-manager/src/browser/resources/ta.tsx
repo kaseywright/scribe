@@ -13,11 +13,12 @@ export const taResource: ScribeResource<Door43RepoResponse, string[]> = {
   displayLabel: "Academy",
   icon: <IconLibrary />,
 
-  getTableDisplayData: async () => {
+  getTableDisplayData: async (query?: string) => {
     try {
       const data = await fetchDoor43ResourceDisplayData(taResource.id, {
         subject: "Translation Academy",
         metadataType: "rc",
+        query: query || "",
       });
       return data ?? [];
     } catch (error) {

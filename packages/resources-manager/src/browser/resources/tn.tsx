@@ -15,11 +15,12 @@ export const tnResource: ScribeResource<Door43RepoResponse, TnTSV> = {
   displayLabel: "Notes",
   icon: <IconNotes />,
 
-  getTableDisplayData: async () => {
+  getTableDisplayData: async (query?: string) => {
     try {
       const data = await fetchDoor43ResourceDisplayData(tnResource.id, {
         subject: "TSV Translation Notes",
         metadataType: "rc",
+        query: query || "",
       });
       return data ?? [];
     } catch (error) {

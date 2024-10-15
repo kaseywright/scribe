@@ -11,7 +11,7 @@ const ResourceTypeDisplay = ({
   resourceType: {
     value: string;
     label: string;
-    getTableDisplayData: () => Promise<any[]>; // TODO: type this
+    getTableDisplayData: (search?: string) => Promise<any[]>; // TODO: type this
     downloadHandler: (resource: any) => void; // TODO: type this
   };
 
@@ -21,14 +21,15 @@ const ResourceTypeDisplay = ({
 }) => {
   const [resourceTableData, setResourceTableData] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
+  const [searchTerm, setSearchTerm] = useState<string | undefined>("");
   const [activeButton, setActiveButton] = useState("download");
   const itemsPerPage = 7;
 
   useEffect(() => {
-    resourceType.getTableDisplayData().then((data) => {
+    resourceType.getTableDisplayData(searchTerm).then((data) => {
       setResourceTableData(data);
     });
-  }, [resourceType]);
+  }, [searchTerm, resourceType]);
 
   const handleDownload = (resource: any) => {
     resourceType.downloadHandler(resource);
@@ -98,7 +99,7 @@ const ResourceTypeDisplay = ({
             className="border  border-gray-300"
             placeHolder="Search sjsjdhsj"
             HandleChange={(event) => {
-              console.log(event.target.value, "check console");
+              setSearchTerm(event.target.value);
             }}
           />
         </div>
@@ -118,60 +119,68 @@ const ResourceTypeDisplay = ({
           </thead>
 
           <tbody className="gap-3">
-            {paginatedData?.map((resource) => (
-              <tr className="border-b border-gray-300 py-2">
-                <td className="px-3">{resource.name}</td>
+            {paginatedData.length > 0 ? (
+              paginatedData?.map((resource) => (
+                <tr className="border-b border-gray-300 py-2">
+                  <td className="px-3">{resource.name}</td>
 
-                <td className="px-4 py-2 w-1/4">
-                  {resource.owner.avatarUrl ? (
-                    <img
-                      src={resource.owner.avatarUrl}
-                      alt={resource.owner.name}
-                      className="w-8 h-8 rounded-lg object-contain"
-                    />
-                  ) : (
-                    resource.owner.name
-                  )}
-                </td>
-                <td
-                  title={`Released on : ${new Date(
-                    resource.version.releaseDate
-                  ).toLocaleDateString()}`}
-                  className="px-4 py-2 w-1/4"
-                >
-                  {resource.version.tag}
-                </td>
-                <td className="flex items-center justify-center px-4  py-2 w-1/4">
-                  {!downloadedResources.find(
-                    (item) => item.id === resource.id
-                  ) ? (
-                    <VSCodeButton
-                      title="Download Resource"
-                      appearance="secondary"
-                      className="w-full"
-                      onClick={() => handleDownload(resource)}
-                    >
-                      <i className="codicon codicon-cloud-download"></i>
-                    </VSCodeButton>
-                  ) : (
-                    <VSCodeButton
-                      title="Open Resource"
-                      appearance="primary"
-                      className="w-full"
-                      onClick={() =>
-                        openResource(
-                          downloadedResources.find(
-                            (item) => item.id === resource.id
-                          )!
-                        )
-                      }
-                    >
-                      <i className="codicon codicon-eye"></i>
-                    </VSCodeButton>
-                  )}
+                  <td className="px-4 py-2 w-1/4">
+                    {resource.owner.avatarUrl ? (
+                      <img
+                        src={resource.owner.avatarUrl}
+                        alt={resource.owner.name}
+                        className="w-8 h-8 rounded-lg object-contain"
+                      />
+                    ) : (
+                      resource.owner.name
+                    )}
+                  </td>
+                  <td
+                    title={`Released on : ${new Date(
+                      resource.version.releaseDate
+                    ).toLocaleDateString()}`}
+                    className="px-4 py-2 w-1/4"
+                  >
+                    {resource.version.tag}
+                  </td>
+                  <td className="flex items-center justify-center px-4  py-2 w-1/4">
+                    {!downloadedResources.find(
+                      (item) => item.id === resource.id
+                    ) ? (
+                      <VSCodeButton
+                        title="Download Resource"
+                        appearance="secondary"
+                        className="w-full"
+                        onClick={() => handleDownload(resource)}
+                      >
+                        <i className="codicon codicon-cloud-download"></i>
+                      </VSCodeButton>
+                    ) : (
+                      <VSCodeButton
+                        title="Open Resource"
+                        appearance="primary"
+                        className="w-full"
+                        onClick={() =>
+                          openResource(
+                            downloadedResources.find(
+                              (item) => item.id === resource.id
+                            )!
+                          )
+                        }
+                      >
+                        <i className="codicon codicon-eye"></i>
+                      </VSCodeButton>
+                    )}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={4} className="text-center py-4">
+                  No Resources available
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
         <div className="flex justify-between items-end pt-3 w-full px-2 border-t border-gray-300">

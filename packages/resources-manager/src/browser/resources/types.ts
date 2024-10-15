@@ -53,7 +53,9 @@ export type ScribeResource<
     utils: DownloadResourceUtils
   ) => Promise<ConfigResourceValues>;
 
-  getTableDisplayData: () => Promise<ResourceDisplay<FullResource>[]>;
+  getTableDisplayData: (
+    search?: string
+  ) => Promise<ResourceDisplay<FullResource>[]>;
 
   openHandlers: Omit<ResourceViewerWidgetHandlers<TData>, "id">;
 

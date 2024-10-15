@@ -25,11 +25,12 @@ export const tqResource: ScribeResource<
   displayLabel: "Questions",
   icon: <IconHelpHexagon />,
 
-  getTableDisplayData: async () => {
+  getTableDisplayData: async (query?: string) => {
     try {
       const data = await fetchDoor43ResourceDisplayData(tqResource.id, {
         subject: "tsv Translation Questions",
         metadataType: "rc",
+        query: query || "",
       });
       return data ?? [];
     } catch (error) {
