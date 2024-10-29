@@ -1,5 +1,6 @@
+import * as React from "@theia/core/shared/react";
 import { WorkspaceService } from "@theia/workspace/lib/browser";
-import { WidgetFactory } from "@theia/core/lib/browser";
+import { ReactWidget, WidgetFactory } from "@theia/core/lib/browser";
 import { inject, injectable } from "@theia/core/shared/inversify";
 import {
   ResourceViewerWidget,
@@ -7,6 +8,7 @@ import {
 } from "./resource-viewer-widget";
 import { FileService } from "@theia/filesystem/lib/browser/file-service";
 import { ConfigResourceValues } from "../resources/types";
+import { VerseRefUtils } from "@scribe/theia-utils/lib/browser";
 
 @injectable()
 export class ResourceViewerFactory implements WidgetFactory {
@@ -18,6 +20,9 @@ export class ResourceViewerFactory implements WidgetFactory {
   @inject(WorkspaceService)
   protected readonly workspaceService: WorkspaceService;
 
+  @inject(VerseRefUtils)
+  protected readonly verseRefUtils: VerseRefUtils;
+
   createWidget(options: {
     resource: ConfigResourceValues;
     handlers: ResourceViewerWidgetHandlers<any>;
@@ -26,7 +31,8 @@ export class ResourceViewerFactory implements WidgetFactory {
       this.fs,
       this.workspaceService,
       options.resource,
-      options.handlers
+      options.handlers,
+      this.verseRefUtils
     );
 
     widget.title.closable = true;
@@ -36,3 +42,9 @@ export class ResourceViewerFactory implements WidgetFactory {
     return widget;
   }
 }
+
+// class TestWidget extends ReactWidget {
+//   render(): React.ReactNode {
+//     return <div>TEST HERE</div>;
+//   }
+// }

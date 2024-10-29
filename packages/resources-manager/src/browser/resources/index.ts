@@ -4,6 +4,7 @@ import { tqResource } from "./tq";
 import { twResource } from "./tw";
 import { twlResource } from "./twl";
 import type { ScribeResource } from "./types";
+import { usfmBibleResource } from "./usfmBible";
 
 export { tnResource } from "./tn";
 export { twlResource } from "./twl";
@@ -20,7 +21,14 @@ export const resourcesGroups = [
   {
     id: "bible-group",
     name: "Bible",
-    resources: [twResource, tnResource, twlResource, taResource, tqResource],
+    resources: [
+      usfmBibleResource,
+      twResource,
+      tnResource,
+      twlResource,
+      taResource,
+      tqResource,
+    ],
   },
   {
     id: "obs-group",

@@ -11,6 +11,7 @@ import TranslationNoteScroller from "./TranslationNoteScroller";
 import { Badge } from "../ui/Badge";
 import Button from "../Button";
 import TranslationNote from "./TranslationNote";
+import type { VerseRefValue } from "@scribe/theia-utils/lib/browser";
 
 type CommandToFunctionMap = Record<string, (data: any) => void>;
 
@@ -19,11 +20,6 @@ export type TnTSV = {
     [verse: number]: any;
   };
 };
-
-type VerseRefGlobalState = {
-  verseRef: string;
-};
-
 export const extractBookChapterVerse = (
   refString: string
 ): { bookID: string; chapter: number; verse: number } => {
@@ -40,46 +36,35 @@ export const extractBookChapterVerse = (
 
 function TranslationNotesView({
   tnTsv: translationNotesObj,
-  ref,
+  verseRef,
 }: {
   tnTsv: TnTSV;
-  ref: VerseRefGlobalState;
+  verseRef: VerseRefValue;
 }) {
-  const [chapter, setChapter] = useState<number>(1);
-  const [verse, setVerse] = useState<number>(1);
   const [noteIndex, setNoteIndex] = useState<number>(0);
 
-  const changeChapterVerse = (ref: VerseRefGlobalState): void => {
-    const { verseRef } = ref;
-    const { chapter: newChapter, verse: newVerse } =
-      extractBookChapterVerse(verseRef);
+  console.log("COMPONENT RENDER DATA - : ", Object.keys(translationNotesObj));
 
-    setChapter(newChapter);
-    setVerse(newVerse);
+  useEffect(() => {
     setNoteIndex(0);
-  };
-
-  const handleMessage = (event: MessageEvent) => {
-    const { command, data } = event.data;
-    1;
-
-    const commandToFunctionMapping: CommandToFunctionMap = {
-      ["changeRef"]: (data: VerseRefGlobalState) => changeChapterVerse(data),
-    };
-
-    commandToFunctionMapping[command](data);
-  };
+  }, [verseRef]);
 
   const incrementNoteIndex = () =>
     setNoteIndex((prevIndex) =>
-      prevIndex < translationNotesObj[chapter][verse].length - 1
+      prevIndex <
+      translationNotesObj[verseRef?.chapter]?.[verseRef?.verse].length - 1
         ? prevIndex + 1
         : prevIndex
     );
   const decrementNoteIndex = () =>
     setNoteIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : prevIndex));
 
-  const notes = translationNotesObj?.[chapter]?.[verse] || [];
+  const notes =
+    translationNotesObj?.[verseRef?.chapter]?.[verseRef?.verse] || [];
+
+  if (!notes || notes.length === 0) {
+    return <div>No notes found</div>;
+  }
 
   return (
     <main>

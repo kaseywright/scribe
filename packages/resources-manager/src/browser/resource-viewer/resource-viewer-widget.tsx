@@ -9,15 +9,18 @@ import { FileService } from "@theia/filesystem/lib/browser/file-service";
 import { WorkspaceService } from "@theia/workspace/lib/browser/workspace-service";
 import _ from "lodash";
 import { registeredResources } from "../resources";
+import type { VerseRefUtils } from "@scribe/theia-utils/lib/browser";
 
 export type Context = {
   fs: FileService;
   resourceUri: URI;
+  verseRefUtils: VerseRefUtils;
 };
 
 type ReadResourceDataCtx = {
   resource: ConfigResourceValues;
   resourcesRootUri: URI;
+  verseRefUtils: VerseRefUtils;
 };
 export type ResourceViewerWidgetHandlers<T extends {}> = {
   readResourceData: (
@@ -27,6 +30,7 @@ export type ResourceViewerWidgetHandlers<T extends {}> = {
   ) => Promise<T>;
   render: (data: T, ctx?: Context) => ReactNode | ReactNode[];
   id: string;
+  verseRefSubscription?: boolean;
 };
 
 export class ResourceViewerWidget<TData extends {}>
@@ -45,12 +49,14 @@ export class ResourceViewerWidget<TData extends {}>
   workspaceUri: URI | null = null;
 
   resourceUri: URI | null = null;
+  verseRefUtils: VerseRefUtils;
 
   constructor(
     private readonly fs: FileService,
     protected readonly workspaceService: WorkspaceService,
     resource: ConfigResourceValues,
-    handlers: ResourceViewerWidgetHandlers<TData>
+    handlers: ResourceViewerWidgetHandlers<TData>,
+    verseRefUtils: VerseRefUtils
   ) {
     super();
     this.id =
@@ -58,6 +64,7 @@ export class ResourceViewerWidget<TData extends {}>
     this.title.label = `${resource.name}`;
     this.resource = resource;
     this.handler = handlers;
+    this.verseRefUtils = verseRefUtils;
     this.workspaceService.roots
       .then((data) => {
         this.workspaceUri = data?.[0].resource;
@@ -68,6 +75,14 @@ export class ResourceViewerWidget<TData extends {}>
       .catch((err) => {
         console.error("Error getting workspace roots: ", err);
       });
+
+    if (this.handler.verseRefSubscription) {
+      this.verseRefUtils.onVerseRefChange((ref) => {
+        this.resetResourceData().then(() => {
+          this.update();
+        });
+      });
+    }
   }
   storeState(): object | undefined {
     return {
@@ -106,30 +121,9 @@ export class ResourceViewerWidget<TData extends {}>
     this.resourceUri = this.resourceUri;
 
     if (!this.data) {
-      this.handler
-        .readResourceData(this.resourceUri, this.fs, {
-          resource: this.resource,
-          resourcesRootUri: URI.fromComponents({
-            path: this.workspaceUri!.path.join(
-              ".project",
-              "resources"
-            ).toString(),
-            scheme: this.workspaceUri!.scheme,
-            authority: this.workspaceUri!.authority,
-            query: this.workspaceUri!.query,
-            fragment: this.workspaceUri!.fragment,
-          }),
-        })
-        .then((data) => {
-          if (_.isEqual(this.data, data)) {
-            return;
-          }
-          this.data = data;
-          super.onUpdateRequest(msg);
-        })
-        .catch((err) => {
-          console.error("Error reading resource data: ", err);
-        });
+      this.resetResourceData().then(() => {
+        super.onUpdateRequest(msg);
+      });
     } else {
       super.onUpdateRequest(msg);
     }
@@ -146,14 +140,39 @@ export class ResourceViewerWidget<TData extends {}>
     const ctx = {
       fs: this.fs,
       resourceUri: this.resourceUri,
+      verseRefUtils: this.verseRefUtils,
     };
     return (
       this.handler?.render?.(this.data, ctx) ?? (
-        <div>
-          Unable to find the handler method of the resource
-          {void console.log("handlers: ", this.handler)}
-        </div>
+        <div>Unable to find the handler method of the resource</div>
       )
     );
+  }
+
+  async resetResourceData() {
+    return this.handler
+      .readResourceData(this.resourceUri!, this.fs, {
+        resource: this.resource,
+        resourcesRootUri: URI.fromComponents({
+          path: this.workspaceUri!.path.join(
+            ".project",
+            "resources"
+          ).toString(),
+          scheme: this.workspaceUri!.scheme,
+          authority: this.workspaceUri!.authority,
+          query: this.workspaceUri!.query,
+          fragment: this.workspaceUri!.fragment,
+        }),
+        verseRefUtils: this.verseRefUtils,
+      })
+      .then((data) => {
+        if (_.isEqual(this.data, data)) {
+          return;
+        }
+        this.data = data;
+      })
+      .catch((err) => {
+        console.error("Error reading resource data: ", err);
+      });
   }
 }

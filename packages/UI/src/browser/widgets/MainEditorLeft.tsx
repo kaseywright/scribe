@@ -96,11 +96,6 @@ export class MainEditorLeftContribution
   }
 
   async onStart(app: FrontendApplication): Promise<void> {
-    this.stateService.reachedState("ready").then(() => {
-      this.openView({
-        activate: true,
-        reveal: true,
-      });
-    });
+    this.stateService.reachedState("ready").then(() => {});
   }
 }

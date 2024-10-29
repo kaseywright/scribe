@@ -88,12 +88,6 @@ export const twlResource: ScribeResource<Door43RepoResponse> = {
       BinaryBuffer.fromString(JSON.stringify(data))
     );
 
-    // vscode.window.showInformationMessage(
-    //   "Downloading linked resource for Translation Words List"
-    // );
-
-    console.log("Downloading linked resource for Translation Words List");
-
     const linkedResource = await getLinkedTwResource(fullResource);
 
     let linkedDownloadResponse = null;
@@ -105,13 +99,6 @@ export const twlResource: ScribeResource<Door43RepoResponse> = {
           resourceFolderUri: resourceFolderUri,
           fs: fs,
         }
-      );
-      // vscode.window.showInformationMessage(
-      //   "Linked resource for Translation Words List downloaded successfully"
-      // );
-
-      console.log(
-        "Linked resource for Translation Words List downloaded successfully"
       );
     } else {
       console.log(
@@ -150,12 +137,13 @@ export const twlResource: ScribeResource<Door43RepoResponse> = {
   },
 
   openHandlers: {
+    verseRefSubscription: true,
     async readResourceData(uri, fs, ctx) {
-      // const { bookID, chapter, verse } = extractBookChapterVerse(verseRef);
+      const verseRef = await ctx.verseRefUtils.getVerseRef();
 
-      const bookID = "GEN";
-      const chapter = 1;
-      const verse = 1;
+      const bookID = verseRef?.book ?? "GEN";
+      const chapter = verseRef?.chapter ?? 1;
+      const verse = verseRef?.verse ?? 1;
 
       const bookUri = uri.withPath(uri.path.join(`twl_${bookID}.tsv`));
       const bookContent = await fs.readFile(bookUri);
@@ -198,8 +186,6 @@ export const twlResource: ScribeResource<Door43RepoResponse> = {
       return wordsWithExistsOnDisk ?? [];
     },
     render(data, ctx) {
-      console.log("data: ", data);
-
       const getTranslationWordContent = async (path: string) => {
         const file = await ctx?.fs.readFile(URI.fromFilePath(path));
         return file?.value?.toString() ?? "";

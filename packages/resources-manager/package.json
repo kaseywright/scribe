@@ -43,7 +43,8 @@
     "tailwindcss-animate": "^1.0.7",
     "unzipit": "^1.4.3",
     "use-deep-compare": "^1.3.0",
-    "zustand": "^5.0.0-rc.2"
+    "zustand": "^5.0.0-rc.2",
+    "@scribe/theia-utils": "0.0.1"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",

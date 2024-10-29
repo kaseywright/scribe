@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Project utilities shared by extensions",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc -b",
     "watch": "npm-watch build",

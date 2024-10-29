@@ -9,6 +9,10 @@ import {
   fetchDoor43ResourceDisplayData,
 } from "./utils";
 import { IconNotes } from "@tabler/icons-react";
+import type {
+  VerseRefUtils,
+  VerseRefValue,
+} from "@scribe/theia-utils/lib/browser";
 
 export const tnResource: ScribeResource<Door43RepoResponse, TnTSV> = {
   id: "codex.tn",
@@ -34,13 +38,45 @@ export const tnResource: ScribeResource<Door43RepoResponse, TnTSV> = {
       resourceFolderUri,
     }),
   openHandlers: {
-    async readResourceData(uri, fs) {
-      return await getDocumentAsScriptureTSV("ACT 1:1", uri, fs);
+    verseRefSubscription: true,
+    async readResourceData(uri, fs, ctx) {
+      const verseRef = await ctx.verseRefUtils.getVerseRef();
+      return await getDocumentAsScriptureTSV(verseRef, uri, fs);
     },
-    render(data) {
+    render(data, ctx) {
+      if (!ctx) {
+        return null;
+      }
+
       return (
-        <TranslationNotesView tnTsv={data} ref={{ verseRef: "GEN 1:1" }} />
+        <TranslationNotesWrapper
+          verseRefUtils={ctx.verseRefUtils}
+          data={data}
+        />
       );
     },
   },
+};
+
+const TranslationNotesWrapper = (props: {
+  verseRefUtils: VerseRefUtils;
+  data: TnTSV;
+}) => {
+  const [ref, setRef] = React.useState<VerseRefValue>({
+    book: "GEN",
+    chapter: 1,
+    verse: 1,
+  });
+
+  React.useLayoutEffect(() => {
+    props.verseRefUtils.onVerseRefChange((ref) => setRef(ref));
+    props.verseRefUtils.getVerseRef().then((ref) => setRef(ref));
+  }, []);
+
+  return (
+    <div>
+      <div className="text-white text-3xl">{JSON.stringify(ref)}</div>
+      <TranslationNotesView tnTsv={props.data} verseRef={ref} />
+    </div>
+  );
 };

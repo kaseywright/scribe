@@ -58,35 +58,7 @@ export type ScribeResource<
   ) => Promise<ResourceDisplay<FullResource>[]>;
 
   openHandlers: Omit<ResourceViewerWidgetHandlers<TData>, "id">;
-
-  //   openResource: (
-  //     resource: ConfigResourceValues,
-  //     helpers: {
-  //       renderInWebview: (fns: {
-  //         handler: RenderWebviewHandler;
-  //         getWebviewContent: GetWebviewContent;
-  //         onWebviewVisible?: RenderWebviewHandler;
-  //       }) => void;
-  //       stateStore: StateStore;
-  //       currentResourceUri: vscode.Uri;
-  //       fs: vscode.FileSystem;
-  //     }
-  //   ) => Promise<void>;
-  //   getOfflineImportMetadata?: (params: {
-  //     resourceUri: vscode.Uri;
-  //     fs: vscode.FileSystem;
-  //   }) => Promise<{
-  //     name: string;
-  //     id: string;
-  //     version: string;
-  //     [x: string]: any;
-  //   }>;
-  //   getOfflineConfigResourceValues?: (params: {
-  //     resourceUri: vscode.Uri;
-  //     fs: vscode.FileSystem;
-  //   }) => Promise<ConfigResourceValues>;
 };
-
 export type ConfigResourceValues = {
   name: string;
   id: string;

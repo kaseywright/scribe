@@ -20,6 +20,9 @@ import { FileService } from "@theia/filesystem/lib/browser/file-service";
 
 import { ResourceManagerUtils } from "./utils";
 import { ResourceViewerOpener } from "./resource-viewer/resource-viewer-opener";
+
+import { VerseRefUtils, VerseRefValue } from "@scribe/theia-utils/lib/browser";
+
 @injectable()
 export class ResourcePickerDialogProps extends DialogProps {}
 
@@ -58,6 +61,9 @@ export class ResourcesPickerWidget extends ReactDialog<void> {
   @inject(ResourceManagerUtils)
   protected readonly resourcesManagerUtils: ResourceManagerUtils;
 
+  @inject(VerseRefUtils)
+  protected verseRefUtils: VerseRefUtils;
+
   protected onAfterAttach(msg: Message): void {
     super.onAfterAttach(msg);
     this.resourcesManagerUtils
@@ -69,7 +75,6 @@ export class ResourcesPickerWidget extends ReactDialog<void> {
   }
 
   get value(): any {
-    console.log("value");
     return "value";
   }
 
@@ -96,6 +101,9 @@ export class ResourcesPickerWidget extends ReactDialog<void> {
     };
     return (
       <div className="w-[90vw] h-[80vh] flex relative gap-3 justify-between">
+        <VerseRefInput
+          setVerseRef={(verseRef) => this.verseRefUtils.setVerseRef(verseRef)}
+        />
         <Tabs
           defaultValue={allUngroupedResources[0].id}
           className="w-full flex "
@@ -205,3 +213,54 @@ export class ResourcesPickerWidget extends ReactDialog<void> {
     }
   }
 }
+
+interface VerseRefInputProps {
+  setVerseRef: (verseRef: VerseRefValue) => void;
+}
+
+const VerseRefInput: React.FC<VerseRefInputProps> = ({ setVerseRef }) => {
+  const [book, setBook] = React.useState("");
+  const [chapter, setChapter] = React.useState("");
+  const [verse, setVerse] = React.useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setVerseRef({ book, chapter: parseInt(chapter), verse: parseInt(verse) });
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label htmlFor="book">Book:</label>
+        <input
+          type="text"
+          id="book"
+          placeholder="Book"
+          value={book}
+          onChange={(e) => setBook(e.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="chapter">Chapter:</label>
+        <input
+          type="number"
+          id="chapter"
+          placeholder="Chapter"
+          value={chapter}
+          onChange={(e) => setChapter(e.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="verse">Verse:</label>
+        <input
+          type="number"
+          id="verse"
+          placeholder="Verse"
+          value={verse}
+          onChange={(e) => setVerse(e.target.value)}
+        />
+      </div>
+      <button type="submit">Set Verse Ref</button>
+    </form>
+  );
+};

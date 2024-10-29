@@ -16,6 +16,7 @@ import type { URI } from "@theia/core";
 import type { FileService } from "@theia/filesystem/lib/browser/file-service";
 import TranslationQuestions from "@/components/TranslationQuestions";
 import { IconHelpHexagon } from "@tabler/icons-react";
+import type { VerseRefValue } from "@scribe/theia-utils/lib/browser";
 
 export const tqResource: ScribeResource<
   Door43RepoResponse,
@@ -44,11 +45,13 @@ export const tqResource: ScribeResource<
       resourceFolderUri,
     }),
   openHandlers: {
+    verseRefSubscription: true,
     async readResourceData(uri, fs, ctx) {
+      const verseRef = await ctx.verseRefUtils.getVerseRef();
       const questions = await getVerseTranslationQuestions(
         {
           resource: ctx.resource,
-          verseRef: "GEN 1:1",
+          verseRef: verseRef,
         },
         { fs, resourceDirUri: uri }
       );
@@ -72,14 +75,14 @@ export const getVerseTranslationQuestions = async (
     verseRef,
   }: {
     resource: ConfigResourceValues;
-    verseRef: string;
+    verseRef: VerseRefValue;
   },
   { fs, resourceDirUri }: { fs: FileService; resourceDirUri: URI }
 ) => {
   // TODO: get bookID, chapter, and verse from verseRef
-  const bookID = "ROM";
-  const chapter = 1;
-  const verse = 20;
+  const bookID = verseRef.book ?? "GEN";
+  const chapter = verseRef.chapter ?? 1;
+  const verse = verseRef.verse ?? 1;
 
   const bookUri = resourceDirUri.withPath(
     resourceDirUri.path.join(`tq_${bookID}.tsv`)
