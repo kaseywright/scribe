@@ -1,32 +1,31 @@
-import { injectable } from '@theia/core/shared/inversify';
-import { MenuModelRegistry } from '@theia/core';
-import { UsfmEditorWidget } from './usfm-editor-widget';
-import { AbstractViewContribution } from '@theia/core/lib/browser';
-import { Command, CommandRegistry } from '@theia/core/lib/common/command';
+import { injectable } from "@theia/core/shared/inversify";
+import { MenuModelRegistry } from "@theia/core";
+import { UsfmEditorWidget } from "./usfm-editor-widget";
+import { AbstractViewContribution } from "@theia/core/lib/browser";
+import { Command, CommandRegistry } from "@theia/core/lib/common/command";
 
-export const UsfmEditorCommand: Command = { id: 'usfm-editor:command' };
+export const UsfmEditorCommand: Command = { id: "usfm-editor:command" };
 
 @injectable()
 export class UsfmEditorContribution extends AbstractViewContribution<UsfmEditorWidget> {
+  /**
+   * `AbstractViewContribution` handles the creation and registering
+   *  of the widget including commands, menus, and keybindings.
+   *
+   * We can pass `defaultWidgetOptions` which define widget properties such as
+   * its location `area` (`main`, `left`, `right`, `bottom`), `mode`, and `ref`.
+   *
+   */
+  constructor() {
+    super({
+      widgetId: UsfmEditorWidget.ID,
+      widgetName: UsfmEditorWidget.LABEL,
+      defaultWidgetOptions: { area: "left" },
+      toggleCommandId: UsfmEditorCommand.id,
+    });
+  }
 
-    /**
-     * `AbstractViewContribution` handles the creation and registering
-     *  of the widget including commands, menus, and keybindings.
-     * 
-     * We can pass `defaultWidgetOptions` which define widget properties such as 
-     * its location `area` (`main`, `left`, `right`, `bottom`), `mode`, and `ref`.
-     * 
-     */
-    constructor() {
-        super({
-            widgetId: UsfmEditorWidget.ID,
-            widgetName: UsfmEditorWidget.LABEL,
-            defaultWidgetOptions: { area: 'left' },
-            toggleCommandId: UsfmEditorCommand.id
-        });
-    }
-
-    /**
+  /**
      * Example command registration to open the widget from the menu, and quick-open.
      * For a simpler use case, it is possible to simply call:
      ```ts
@@ -44,13 +43,13 @@ export class UsfmEditorContribution extends AbstractViewContribution<UsfmEditorW
      *
      * @param commands
      */
-    registerCommands(commands: CommandRegistry): void {
-        commands.registerCommand(UsfmEditorCommand, {
-            execute: () => super.openView({ activate: false, reveal: true })
-        });
-    }
+  registerCommands(commands: CommandRegistry): void {
+    commands.registerCommand(UsfmEditorCommand, {
+      execute: () => super.openView({ activate: false, reveal: true }),
+    });
+  }
 
-    /**
+  /**
      * Example menu registration to contribute a menu item used to open the widget.
      * Default location when extending the `AbstractViewContribution` is the `View` main-menu item.
      * 
@@ -64,7 +63,7 @@ export class UsfmEditorContribution extends AbstractViewContribution<UsfmEditorW
      * 
      * @param menus
      */
-    registerMenus(menus: MenuModelRegistry): void {
-        super.registerMenus(menus);
-    }
+  registerMenus(menus: MenuModelRegistry): void {
+    super.registerMenus(menus);
+  }
 }

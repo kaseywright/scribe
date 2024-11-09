@@ -66,8 +66,6 @@ export class CustomFileWidget extends ReactWidget implements Saveable {
   @postConstruct()
   protected init(): void {
     this.id = CustomFileWidget.ID;
-    this.title.label = this.bookId || CustomFileWidget.LABEL;
-    this.title.caption = this.bookId || CustomFileWidget.LABEL;
     this.title.closable = true;
     this.update();
   }
@@ -75,6 +73,10 @@ export class CustomFileWidget extends ReactWidget implements Saveable {
   public async setUri(uri: URI): Promise<void> {
     this.uri = uri;
     await this.getBookID();
+
+    const fileName = uri.path.base;
+    this.title.label = fileName;
+    this.title.caption = fileName;
     await this.readFile();
     await this.parseContent();
     this.update();
