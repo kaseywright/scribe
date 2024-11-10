@@ -23,7 +23,7 @@ const ResourceTypeDisplay = ({
   const [currentPage, setCurrentPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState<string | undefined>("");
   const [activeButton, setActiveButton] = useState("download");
-  const itemsPerPage = 7;
+  const [itemsPerPage, setItemPerPage] = useState(7);
 
   useEffect(() => {
     resourceType.getTableDisplayData(searchTerm).then((data) => {
@@ -64,34 +64,34 @@ const ResourceTypeDisplay = ({
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full ">
       <div className="flex  p-2 gap-2 mb-3  justify-between mx-2">
-        <div className="flex gap-1 p-1 rounded-lg bg-gray-300 border">
+        <div className="flex gap-1 p-1 rounded-lg ">
           <VSCodeButton
-            title="Download Resource"
-            className={`rounded-md duration-200 font-bold ${
+            title="Download"
+            className={`rounded-lg duration-200 downloadButton  font-extrabold border ${
               activeButton === "download"
-                ? "hover:bg-cyan-200 dark:bg-cyan-950"
+                ? "text-cyan-700 border-cyan-800 bg-cyan-950"
                 : "bg-transparent"
             } `}
             onClick={() => {
               setActiveButton("download"), setCurrentPage(0);
             }}
           >
-            Download Resource
+            DOWNLOAD
           </VSCodeButton>
           <VSCodeButton
-            title="Online Resource"
-            className={`rounded-md duration-200 font-bold ${
+            title="Online "
+            className={`rounded-lg duration-200 downloadButton  font-extrabold border ${
               activeButton === "online"
-                ? "hover:bg-cyan-200 dark:bg-cyan-950"
+                ? "text-cyan-700 border-cyan-800 bg-cyan-950"
                 : "bg-transparent"
             } `}
             onClick={() => {
               setActiveButton("online"), setCurrentPage(0);
             }}
           >
-            Online Resource
+            ONLINE
           </VSCodeButton>
         </div>
         <div className="w-1/3  text-right items-center ">
@@ -104,107 +104,129 @@ const ResourceTypeDisplay = ({
           />
         </div>
       </div>
-      <div className="flex flex-1 justify-between flex-col gap-2 mx-3 border rounded-md border-gray-300 pb-3  min-h-[55vh]  ">
-        <table className="table-auto w-full border-b border-gray-300 p-10  ">
-          <thead className="font-semibold pb-4 ">
-            <tr
-              className="py-3 border-b border-gray-300 "
-              style={{ padding: "10px", paddingBottom: "10px" }}
-            >
-              <td className="px-4 py-2 w-1/4">Words</td>
-              <td className="px-4 py-2 w-1/4">Owner</td>
-              <td className="px-4 py-2 w-1/4">Versions</td>
-              <td className="w-1/4"></td>
-            </tr>
-          </thead>
+      <div className="flex flex-1 justify-between flex-col  gap-2 mx-3 border rounded-md border-gray-300 pb-3  min-h-[55vh]  ">
+        <div className="max-h-[50vh] overflow-scroll">
+          <table className="table-auto w-full border-b border-gray-300 p-10  ">
+            <thead className="font-semibold pb-4 ">
+              <tr
+                className="py-3 border-b border-gray-300 sticky "
+                style={{ padding: "10px", paddingBottom: "10px" }}
+              >
+                <td className="px-4 py-2 w-1/4">Words</td>
+                <td className="px-4 py-2 w-1/4">Owner</td>
+                <td className="px-4 py-2 w-1/4">Versions</td>
+                <td className="w-1/4"></td>
+              </tr>
+            </thead>
 
-          <tbody className="gap-3">
-            {paginatedData.length > 0 ? (
-              paginatedData?.map((resource) => (
-                <tr className="border-b border-gray-300 py-2">
-                  <td className="px-3">{resource.name}</td>
+            <tbody className="gap-3  ">
+              {paginatedData.length > 0 ? (
+                paginatedData?.map((resource) => (
+                  <tr className="border-b border-gray-300 py-2">
+                    <td className="px-3">{resource.name}</td>
 
-                  <td className="px-4 py-2 w-1/4">
-                    {resource.owner.avatarUrl ? (
-                      <img
-                        src={resource.owner.avatarUrl}
-                        alt={resource.owner.name}
-                        className="w-8 h-8 rounded-lg object-contain"
-                      />
-                    ) : (
-                      resource.owner.name
-                    )}
-                  </td>
-                  <td
-                    title={`Released on : ${new Date(
-                      resource.version.releaseDate
-                    ).toLocaleDateString()}`}
-                    className="px-4 py-2 w-1/4"
-                  >
-                    {resource.version.tag}
-                  </td>
-                  <td className="flex items-center justify-center px-4  py-2 w-1/4">
-                    {!downloadedResources.find(
-                      (item) => item.id === resource.id
-                    ) ? (
-                      <VSCodeButton
-                        title="Download Resource"
-                        appearance="secondary"
-                        className="w-full"
-                        onClick={() => handleDownload(resource)}
-                      >
-                        <i className="codicon codicon-cloud-download"></i>
-                      </VSCodeButton>
-                    ) : (
-                      <VSCodeButton
-                        title="Open Resource"
-                        appearance="primary"
-                        className="w-full"
-                        onClick={() =>
-                          openResource(
-                            downloadedResources.find(
-                              (item) => item.id === resource.id
-                            )!
-                          )
-                        }
-                      >
-                        <i className="codicon codicon-eye"></i>
-                      </VSCodeButton>
-                    )}
+                    <td className="px-4 py-2 w-1/4">
+                      {resource.owner.avatarUrl ? (
+                        <img
+                          src={resource.owner.avatarUrl}
+                          alt={resource.owner.name}
+                          className="w-8 h-8 rounded-lg object-contain"
+                        />
+                      ) : (
+                        resource.owner.name
+                      )}
+                    </td>
+                    <td
+                      title={`Released on : ${new Date(
+                        resource.version.releaseDate
+                      ).toLocaleDateString()}`}
+                      className="px-4 py-2 w-1/4"
+                    >
+                      {resource.version.tag}
+                    </td>
+                    <td className="flex items-center justify-center px-4  py-2 w-1/4">
+                      {!downloadedResources.find(
+                        (item) => item.id === resource.id
+                      ) ? (
+                        <VSCodeButton
+                          title="Download Resource"
+                          appearance="secondary"
+                          className="w-full flex justify-center"
+                          onClick={() => handleDownload(resource)}
+                        >
+                          <i className="codicon codicon-cloud-download"></i>
+                        </VSCodeButton>
+                      ) : (
+                        <VSCodeButton
+                          title="Open Resource"
+                          appearance="primary"
+                          className="w-full bg-cyan-950 flex justify-center"
+                          onClick={() =>
+                            openResource(
+                              downloadedResources.find(
+                                (item) => item.id === resource.id
+                              )!
+                            )
+                          }
+                        >
+                          <i className="codicon codicon-eye"></i>
+                        </VSCodeButton>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={4} className="text-center py-4">
+                    No Resources available
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={4} className="text-center py-4">
-                  No Resources available
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-        <div className="flex justify-between items-end pt-3 w-full px-2 border-t border-gray-300">
-          <VSCodeButton
-            title="Previous Page"
-            appearance="secondary"
-            className="rounded-md border"
-            onClick={prevPage}
-            disabled={currentPage === 0}
-          >
-            Previous
-          </VSCodeButton>
+              )}
+            </tbody>
+          </table>
+        </div>
+        <div className="flex justify-end gap-2 items-center pt-3 w-full px-2 border-t border-gray-300">
+          <div className="flex items-center justify-center gap-1 mr-7">
+            <h1 className="font-semibold">Rows per page</h1>
+            <select
+              name="select"
+              onChange={(value) => {
+                setItemPerPage(Number(value.target.value));
+                setCurrentPage(0);
+              }}
+              id="2"
+              className="rounded-md flex items-center text-center justify-center bg-gray-800 border p-1"
+            >
+              <option>7</option>
+              <option>10</option>
+              <option>20</option>
+              <option>50</option>
+              <option>100</option>
+            </select>
+          </div>
           <div className="font-semibold">
             Page {currentPage + 1} of {totalPages}
           </div>
-          <VSCodeButton
-            title="Next Page"
-            appearance="secondary"
-            className="rounded-md border"
-            onClick={nextPage}
-            disabled={startIndex + itemsPerPage >= filteredData.length}
-          >
-            Next
-          </VSCodeButton>
+          <div className="flex gap-2">
+            <VSCodeButton
+              title="Previous Page"
+              appearance="secondary"
+              className="rounded-md border"
+              onClick={prevPage}
+              disabled={currentPage === 0}
+            >
+              &#10094;{" "}
+            </VSCodeButton>
+            <VSCodeButton
+              title="Next Page"
+              appearance="secondary"
+              className="rounded-md border"
+              onClick={nextPage}
+              disabled={startIndex + itemsPerPage >= filteredData.length}
+            >
+              &#10095;
+            </VSCodeButton>
+          </div>
         </div>
       </div>
     </div>

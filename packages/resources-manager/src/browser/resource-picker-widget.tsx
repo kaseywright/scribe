@@ -35,12 +35,18 @@ export class ResourcesPickerWidget extends ReactDialog<void> {
     protected override readonly props: ResourcePickerDialogProps
   ) {
     super({
-      title: "Resources Picker",
+      title: "Resources Picker ",
     });
-    // this.titleNode.className = "bg-grey-300 text-lg font-semibold";
+    if (this.titleNode && this.titleNode.parentElement) {
+      this.titleNode.parentElement.style.textTransform = "uppercase";
+      this.titleNode.parentElement.style.backgroundColor = "#083344";
+      this.titleNode.parentElement.style.color = "#164E63";
+    }
 
+    // this.titleNode.className =
+    //   "bg-grey-300 text-lg text-cyan-950 font-semibold";
     // this.titleNode.parentElement!.className =
-    //   "bg-red-500 justify-between flex items-center p-2";
+    //   "bg-blue-500 justify-between flex items-center p-2";
     // this.titleNode.parentElement!.innerHTML = "Parent";
   }
 
@@ -100,21 +106,26 @@ export class ResourcesPickerWidget extends ReactDialog<void> {
       });
     };
     return (
-      <div className="w-[90vw] h-[80vh] flex relative gap-3 justify-between">
+      <div className="w-[90vw] h-[80vh] top-0   flex relative gap-3 justify-between">
         <VerseRefInput
           setVerseRef={(verseRef) => this.verseRefUtils.setVerseRef(verseRef)}
         />
+
         <Tabs
           defaultValue={allUngroupedResources[0].id}
           className="w-full flex "
         >
-          <TabsList className="flex flex-col w-1/6 h-fit mr-3 ">
+          <TabsList className="flex flex-col w-1/6 h-fit mr-3  ">
             {resourcesGroups.map((group) => (
-              <div key={group.id} className="flex flex-col gap-2 w-full">
-                <h1>{group.name}</h1>
+              <div key={group.id} className="flex flex-col gap-2 w-full mb-5">
+                <h1 className="uppercase text-xxs">{group.name}</h1>
                 {group.resources.map((resource) => (
-                  <TabsTrigger value={resource.id} asChild>
-                    <button className="flex gap-2">
+                  <TabsTrigger
+                    value={resource.id}
+                    asChild
+                    className="text-white font-medium px-2 mx-0  flex items-center m-0 py-0.5"
+                  >
+                    <button className="flex gap-2 text-sm">
                       {resource.icon}
                       <span>{resource.displayLabel}</span>
                     </button>
@@ -123,7 +134,7 @@ export class ResourcesPickerWidget extends ReactDialog<void> {
               </div>
             ))}
           </TabsList>
-          <div className="border-l border-gray-300 min-h-full px-10 flex-1">
+          <div className="border-l border-gray-300 min-h-full  px-10 flex-1">
             {allUngroupedResources.map((resource) => (
               <TabsContent value={resource.id}>
                 <ResourceTypeDisplay
