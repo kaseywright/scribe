@@ -1,6 +1,4 @@
-"use client";
-
-import * as React from "react";
+import * as React from "@theia/core/shared/react";
 
 import { GripVertical } from "lucide-react";
 import * as ResizablePrimitive from "react-resizable-panels";

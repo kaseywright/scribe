@@ -9,6 +9,7 @@ import {
   MainEditorLeftContribution,
   MainEditorLeftWidget,
 } from "./MainEditorLeft";
+import { AudioWidget, AudioContribution } from "./AudioWidget";
 import {
   MainEditorRightContribution,
   MainEditorRightWidget,
@@ -21,6 +22,9 @@ import {
   BottomEditorRightContribution,
   BottomEditorRightWidget,
 } from "./BottomEditorRight";
+import { ChatContribution, ChatWidget } from "./ChatWidget";
+import { VideoContribution, VideoWidget } from "./Videowidget";
+import { AudioPlayContribution, AudioPlayWidget } from "./AudioplayWidget";
 
 export const bindAllWidgetsContributions = (bind: interfaces.Bind) => {
   // sidebar widget binds
@@ -80,6 +84,51 @@ export const bindAllWidgetsContributions = (bind: interfaces.Bind) => {
       id: BottomEditorRightWidget.ID,
       createWidget: () =>
         context.container.get<BottomEditorRightWidget>(BottomEditorRightWidget),
+    }))
+    .inSingletonScope();
+
+  // Audio widget binds
+  bindViewContribution(bind, AudioContribution);
+  bind(FrontendApplicationContribution).toService(AudioContribution);
+  bind(AudioWidget).toSelf();
+  bind(WidgetFactory)
+    .toDynamicValue((context) => ({
+      id: AudioWidget.ID,
+      createWidget: () => context.container.get<AudioWidget>(AudioWidget),
+    }))
+    .inSingletonScope();
+
+  // chat widget binds
+  bindViewContribution(bind, ChatContribution);
+  bind(FrontendApplicationContribution).toService(ChatContribution);
+  bind(ChatWidget).toSelf();
+  bind(WidgetFactory)
+    .toDynamicValue((context) => ({
+      id: ChatWidget.ID,
+      createWidget: () => context.container.get<ChatWidget>(ChatWidget),
+    }))
+    .inSingletonScope();
+
+  // Video widget binds
+  bindViewContribution(bind, VideoContribution);
+  bind(FrontendApplicationContribution).toService(VideoContribution);
+  bind(VideoWidget).toSelf();
+  bind(WidgetFactory)
+    .toDynamicValue((context) => ({
+      id: VideoWidget.ID,
+      createWidget: () => context.container.get<VideoWidget>(VideoWidget),
+    }))
+    .inSingletonScope();
+
+  // Audio Play widget binds
+  bindViewContribution(bind, AudioPlayContribution);
+  bind(FrontendApplicationContribution).toService(AudioPlayContribution);
+  bind(AudioPlayWidget).toSelf();
+  bind(WidgetFactory)
+    .toDynamicValue((context) => ({
+      id: AudioPlayWidget.ID,
+      createWidget: () =>
+        context.container.get<AudioPlayWidget>(AudioPlayWidget),
     }))
     .inSingletonScope();
 };
