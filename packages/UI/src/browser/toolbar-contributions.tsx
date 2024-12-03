@@ -10,6 +10,7 @@ import { AbstractToolbarContribution } from "@theia/toolbar/lib/browser/abstract
 import { ReactInteraction } from "@theia/toolbar/lib/browser/toolbar-constants";
 import { ToolbarContribution } from "@theia/toolbar/lib/browser/toolbar-interfaces";
 import { IconFolders } from "@tabler/icons-react";
+import { LayoutManager } from "./layout-manager";
 
 export const RESOURCE_PICKER_OPEN_DIALOG = {
   id: "resource-picker.open-dialog",
@@ -61,6 +62,9 @@ export class LayoutsToolbarContribution
   @inject(MessageService)
   protected readonly messageService: MessageService;
 
+  @inject(LayoutManager)
+  protected readonly layoutManager: LayoutManager;
+
   static ID = "scribe-theia-layout-toolbar-contribution";
   id = LayoutsToolbarContribution.ID;
 
@@ -77,7 +81,7 @@ export class LayoutsToolbarContribution
     this.doHandleNotificationClick(e);
   protected doHandleLayoutClick(e: ReactInteraction<HTMLSpanElement>): void {
     e.stopPropagation();
-    this.commandService.executeCommand(LAYOUT_COMMAND.id);
+    this.layoutManager.resetDefaultLayout();
   }
 
   protected doHandleSaveClick(e: ReactInteraction<HTMLSpanElement>): void {
@@ -134,7 +138,7 @@ export class LayoutsToolbarContribution
           title="Change Layout"
         >
           <div className="codicon codicon-layout" />
-          <span>Layout</span>
+          <span>Reset to Default Layout</span>
         </div>
 
         <div
