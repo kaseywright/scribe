@@ -3,7 +3,8 @@ name: Build and Package
 on:
   push:
     branches:
-      - [main,cicd]
+      - main
+      - cicd
 
 jobs:
 
