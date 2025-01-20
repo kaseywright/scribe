@@ -7,7 +7,9 @@
   "scripts": {
     "build": "tsc -b",
     "watch": "npm-watch build",
-    "clean": "rimraf lib && rimraf node_modules && rimraf *.tsbuildinfo"
+    "production": "yarn run build",
+    "clean": "rimraf lib && rimraf node_modules && rimraf *.tsbuildinfo",
+    "productionCICD": "yarn run build"
   },
   "author": "",
   "license": "ISC",

@@ -15,7 +15,8 @@
     "@theia/editor": "1.51.0",
     "@theia/plugin": "1.51.0",
     "@theia/plugin-ext": "1.51.0",
-    "sj-usfm-grammar": "^3.0.8"
+    "sj-usfm-grammar": "^3.0.8",
+    "@scribe/theia-utils": "0.0.1"
   },
   "devDependencies": {
     "@testing-library/react": "^11.2.7",
@@ -34,8 +35,10 @@
     "prepare": "yarn run clean && yarn run build",
     "clean": "rimraf lib",
     "build": "tsc && tsconfig-replace-paths --project tsconfig.json",
+    "production": "yarn run build",
     "watch": "tsc -w",
-    "test": "jest --config configs/jest.config.ts"
+    "test": "jest --config configs/jest.config.ts",
+    "productionCICD": "yarn run build"
   },
   "theiaExtensions": [
     {

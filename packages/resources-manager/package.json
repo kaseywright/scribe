@@ -60,8 +60,10 @@
     "build:style": "npx tailwindcss -i ./src/styles/globals.css -o ./lib/output-tailwind.css -c ./tailwind.config.js",
     "build:ts": "tsc && tsconfig-replace-paths --project tsconfig.json ",
     "build": "yarn build:ts && yarn build:style",
+    "production": "yarn build",
     "watch": "npm-watch build",
-    "clean": "rimraf lib node_modules *.tsbuildinfo"
+    "clean": "rimraf lib node_modules *.tsbuildinfo",
+    "productionCICD": "yarn build"
   },
   "theiaExtensions": [
     {

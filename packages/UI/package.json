@@ -63,7 +63,8 @@
     "update:theia": "ts-node ../../scripts/update-theia-version.ts",
     "update:next": "ts-node ../../scripts/update-theia-version.ts next",
     "build:style": "npx tailwindcss -i ./src/browser/styles/globals.css -o ./lib/browser/output-tailwind.css",
-    "watch": "npm-watch build"
+    "watch": "npm-watch build",
+    "productionCICD": "yarn build"
   },
   "watch": {
     "build": {

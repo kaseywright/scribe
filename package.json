@@ -10,11 +10,13 @@
     "build:electron": "lerna run build --ignore browser --ignore scribe-electron && yarn --cwd applications/electron build:highMemory",
     "postinstall": "theia check:theia-version",
     "build:dev": "lerna run development",
-    "build:prod": "lerna run production",
+    "build:production": "lerna run production --ignore scribe-browser --stream",
+    "build:electronCICD": "lerna run productionCICD --ignore scribe-browser --stream",
     "start:browser": "yarn --cwd applications/browser start",
     "start:electron": "yarn --cwd applications/electron start",
     "watch:browser": "lerna run --parallel watch --ignore scribe-electron ",
-    "watch:electron": "lerna run --parallel watch --ignore scribe-browser"
+    "watch:electron": "lerna run --parallel watch --ignore scribe-browser",
+    "electron:dist":"yarn --cwd applications/electron package:prod"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
