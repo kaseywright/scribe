@@ -62,7 +62,7 @@ jobs:
       - name: Upload dist(Linux)
         uses: actions/upload-artifact@v4
         with:
-          name: Scribe
+          name: Scribe-linux-${{ matrix.arch }}-${{ github.run_id }}-${{ steps.timestamp.outputs.time }}
           path: applications/electron/dist
 
       - name: List artifacts-Linux
