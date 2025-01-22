@@ -22,12 +22,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
           registry-url: 'https://registry.npmjs.org'
@@ -60,7 +60,7 @@ jobs:
           npx rimraf "applications/electron/dist/!(*.deb|*.AppImage|*.dmg)"
 
       - name: Upload dist(Linux)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Scribe
           path: applications/electron/dist
