@@ -68,3 +68,57 @@ jobs:
       - name: List artifacts-Linux
         run: |
           ls -R applications/electron/dist
+
+  build-windows:
+    name: Build on Windows - ${{ matrix.arch }}
+    strategy:
+      matrix:
+        node: ['20.10.0']
+        arch: ['ia32', 'x64', 'arm64']
+    runs-on: windows-2019
+    timeout-minutes: 60
+
+    env:
+      NODE_OPTIONS: --max_old_space_size=5120 
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Use Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Verify memory setting (Windows)
+        run: echo $NODE_OPTIONS
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Check installed Electron version
+        run: yarn why electron
+
+      - name: Build project
+        run: yarn build:electronCICD
+
+      - name: Packaging
+        run: yarn --cwd applications/electron package:cicdWin --${{ matrix.arch }}
+
+      - name: Cleanup artifacts Win
+        run: |
+          mkdir artifacts
+          mv applications/electron/dist/*.exe artifacts
+
+      - name: Upload artifacts(Windows)
+        uses: actions/upload-artifact@v4
+        with:
+          name: Scribe-win-${{ matrix.arch }}-${{ github.run_id }}-${{ steps.timestamp.outputs.time }}
+          path: artifacts
+
+      - name: List artifacts-Windows
+        run: |
+          dir artifacts
