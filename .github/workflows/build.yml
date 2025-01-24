@@ -122,3 +122,62 @@ jobs:
       - name: List artifacts-Windows
         run: |
           dir artifacts
+
+  build-mac:
+    name: Build on macOS - ${{ matrix.arch }}
+    strategy:
+      matrix:
+        node: ['20.10.0']
+        arch: ['x64', 'arm64']
+    runs-on: macos-latest
+    timeout-minutes: 60
+
+    env:
+      NODE_OPTIONS: --max_old_space_size=5120 
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+          
+      - name: Use Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Verify memory setting (macOS)
+        run: echo $NODE_OPTIONS
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Check installed Electron version
+        run: yarn why electron
+
+      - name: Build project
+        run: yarn build:electronCICD
+
+      - name: Packaging for macOS
+        run: yarn --cwd applications/electron package:cicdMac --${{ matrix.arch }}
+
+      - name: Cleanup artifacts (macOS)
+        run: |
+          mkdir artifacts
+          mv applications/electron/dist/*.dmg artifacts
+
+      - name: Upload artifacts (macOS)
+        uses: actions/upload-artifact@v4
+        with:
+          name: Scribe-mac-${{ matrix.arch }}-${{ github.run_id }}-${{ steps.timestamp.outputs.time }}
+          path: artifacts
+
+      - name: List artifacts (macOS)
+        run: |
+          ls artifacts

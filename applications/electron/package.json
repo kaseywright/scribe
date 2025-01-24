@@ -140,6 +140,7 @@
     "package:prod": "yarn clean:dist && yarn rebuild && electron-builder -c.mac.identity=null --publish always",
     "package:cicdLinux": "yarn clean:dist && yarn rebuild && electron-builder --linux",
     "package:cicdWin": "yarn clean:dist && yarn rebuild && electron-builder --win",
+    "package:cicdMac": "yarn clean:dist && yarn rebuild && electron-builder --mac",
     "deploy": "yarn clean:dist && yarn rebuild && electron-builder --mac.identity=null --publish always",
     "package:preview": "yarn clean:dist && yarn rebuild && electron-builder -c.mac.identity=null --dir",
     "update:checksum": "ts-node scripts/update-checksum.ts",

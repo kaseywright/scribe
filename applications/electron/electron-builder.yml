@@ -2,7 +2,7 @@ appId: bridgeconn.scribe
 productName: Scribe
 copyright: Copyright © 2020-2023 Eclipse Foundation, Inc
 electronDist: ../../node_modules/electron/dist
-electronVersion: 28.3.3
+electronVersion: 28.2.8
 # Although it is generally not recommended to disable asar, it is required for Theia.
 # Enabling this leads to: process ERROR Error: spawn ENOTDIR
 # because binaries can not be executed from the asar archive.
