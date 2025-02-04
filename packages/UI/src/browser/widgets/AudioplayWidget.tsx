@@ -47,7 +47,7 @@ export class AudioPlayWidget extends ReactWidget {
   render(): React.ReactNode {
     return (
       <div className="">
-        <div className=" h-[30%]  border-t border-zinc-200 dark:border-zinc-900 ">
+        <div className=" h-[30%]  border-t border-[rgb(250 250 250 / 0.1)] ">
           <ButtonGroups />
           {/* <IconAudio className="fill-zinc-100  w-[100vw]  dark:stroke-zinc-800 dark:fill-zinc-800 " /> */}
 
@@ -155,7 +155,7 @@ export class AudioPlayWidget extends ReactWidget {
                     strokeLinejoin="miter"
                     className="cursor-pointer dark:text-zinc-50 text-zinc-700"
                   />
-                  <span className="bg-white rounded-full h-2 w-40 border relative">
+                  <span className="bg-white rounded-full h-2 w-40 border border-[rgb(250 250 250 / 0.1)] relative">
                     <span className="bg-cyan-400 rounded-full h-2 w-[70%] absolute  -bottom-[1px] -left-[1px]"></span>
                   </span>
                   <IconPlus

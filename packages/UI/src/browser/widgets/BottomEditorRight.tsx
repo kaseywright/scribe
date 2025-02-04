@@ -43,31 +43,31 @@ export class BottomEditorRightWidget extends ReactWidget {
   }
   protected render(): React.ReactNode {
     return (
-      <>
-        <p className="font-semibold text-xs text-center tracking-wide leading-4 dark:text-zinc-50 text-zinc-700">
+      <div className="bg-[var(--theia-editor-background)]">
+        <p className="font-semibold text-xs text-center tracking-wide leading-4 text-[var(--theia-settings-textInputForeground)]var(--theia-settings-textInputForeground)]">
           Tsv translation notes english
         </p>
-        <div className="mt-2.5 rounded-lg flex items-center justify-between gap-[5px] dark:bg-zinc-900 bg-zinc-200  p-[5px]">
+        <div className="mt-2.5 rounded-lg flex items-center justify-between gap-[5px] bg-[var(rgb(245 245 245 / 0.4))] p-[5px]">
           <Button
             label="Book"
-            className="dark:bg-zinc-800 bg-zinc-50 hover:bg-zinc-100 dark:text-zinc-50 text-zinc-700 w-1/3 uppercase font-semibold"
+            className="dark:bg-zinc-800 bg-[var(--theia-editor-background)] text-[var(--theia-settings-textInputForeground)] w-1/3 uppercase font-semibold"
           />
           <Button
             label="Chapter"
-            className="dark:bg-zinc-800 bg-zinc-50 hover:bg-zinc-100 dark:text-zinc-50 text-zinc-700 w-1/3 uppercase font-semibold"
+            className="dark:bg-zinc-800 bg-[var(--theia-editor-background)] text-[var(--theia-settings-textInputForeground)] w-1/3 uppercase font-semibold"
           />
           <Button
             label="Verse"
-            className="dark:bg-zinc-800 bg-zinc-50 hover:bg-zinc-100 dark:text-zinc-50 text-zinc-700 w-1/3 uppercase font-semibold"
+            className="dark:bg-zinc-800 bg-[var(--theia-editor-background)] text-[var(--theia-settings-textInputForeground)] w-1/3 uppercase font-semibold"
           />
         </div>
-        <article className="dark:text-zinc-50 px-2 text-zinc-700 leading-[18px] mt-2.5   text-xs tracking-wide text-center whitespace-pre-line">
+        <article className="text-[var(--theia-settings-textInputForeground)]leading-[18px] mt-2.5   text-xs tracking-wide text-center whitespace-pre-line">
           1:9b and was baptized by John in the Jordan. and [then] John baptized
           Jesus/him in the Jordan [River]. -OR- • [When he arrived at the place
           where John was preaching,| John baptized him in the Jordan [River].
         </article>
         <div></div>
-      </>
+      </div>
     );
   }
 }

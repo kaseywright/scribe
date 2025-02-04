@@ -38,6 +38,8 @@
     --foreground-rgb: 0, 0, 0;
     --background-start-rgb: 214, 219, 220;
     --background-end-rgb: 255, 255, 255;
+
+    --scribe-secondary-custom: #765467;
   }
 
   .dark {
@@ -75,6 +77,8 @@
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
+
+    --scribe-secondary-custom: #21141c;
   }
 }
 
@@ -96,6 +100,10 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+}
+
+.main-content-panel {
+  background: rgb(var(--theia-main-content-panel));
 }
 
 @layer utilities {

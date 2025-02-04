@@ -83,11 +83,11 @@ const ResourcesTable = ({
     useImportOfflineResource();
 
   return (
-    <div>
+    <div className="text-foreground">
       <div className="flex justify-between w-full">
-        Filter Resources
+        <span className="text-foreground">Filter Resources</span>
         <VSCodeDropdown
-          className="w-1/2"
+          className="w-1/2 bg-background border-muted"
           onInput={(e: any) => {
             setSelectedResourceType(
               (
@@ -106,15 +106,16 @@ const ResourcesTable = ({
         </VSCodeDropdown>
       </div>
       {importedOfflineResource ? (
-        <div className="flex flex-col">
-          <h1>Selected Resource:</h1>
-          <div className="flex flex-col">
+        <div className="flex flex-col border border-muted rounded-md p-4 my-2">
+          <h1 className="font-semibold text-foreground">Selected Resource:</h1>
+          <div className="flex flex-col text-muted">
             <p>Name: {importedOfflineResource.metadata.name}</p>
             <p>ID: {importedOfflineResource.metadata.id}</p>
             <p>Version: {importedOfflineResource.metadata.version}</p>
             <p>Path: {importedOfflineResource.path}</p>
             <VSCodeButton
               onClick={() => handleAddResource(selectedResourceType)}
+              className="bg-primary text-foreground"
             >
               <i className="codicon codicon-cloud-upload"></i>
             </VSCodeButton>
@@ -122,7 +123,7 @@ const ResourcesTable = ({
         </div>
       ) : (
         <div className="flex justify-between mt-2">
-          <div className="min-w-2">Import Resources</div>
+          <div className="min-w-2 text-foreground">Import Resources</div>
           <VSCodeButton
             onClick={() => {
               handleImportResource({ selectedResourceType });
@@ -133,22 +134,21 @@ const ResourcesTable = ({
           </VSCodeButton>
         </div>
       )}
-      <table className="table-auto w-full">
-        <thead className="font-semibold">
+      <table className="table-auto w-full border-collapse">
+        <thead className="font-semibold border-b border-muted">
           <tr>
-            <td>Resource</td>
-            <td>Owner</td>
-            <td>Version</td>
-            <td></td>
+            <td className="py-2">Resource</td>
+            <td className="py-2">Owner</td>
+            <td className="py-2">Version</td>
+            <td className="py-2"></td>
           </tr>
         </thead>
 
         <tbody className="gap-3">
           {resourceTableData?.map((resource) => (
-            <tr>
-              <td>{resource.name}</td>
-
-              <td>
+            <tr className="border-b border-muted">
+              <td className="py-2">{resource.name}</td>
+              <td className="py-2">
                 {resource.owner.avatarUrl ? (
                   <img
                     src={resource.owner.avatarUrl}
@@ -160,20 +160,21 @@ const ResourcesTable = ({
                 )}
               </td>
               <td
+                className="py-2"
                 title={`Released on : ${new Date(
                   resource.version.releaseDate
                 ).toLocaleDateString()}`}
               >
                 {resource.version.tag}
               </td>
-              <td className="flex items-center justify-center px-2">
+              <td className="flex items-center justify-center px-2 py-2">
                 {!downloadedResources.find(
                   (item) => item.id === resource.id
                 ) ? (
                   <VSCodeButton
                     title="Download Resource"
                     appearance="secondary"
-                    className="w-full"
+                    className="w-full bg-background"
                     onClick={() => handleDownload(resource)}
                   >
                     <i className="codicon codicon-cloud-download"></i>
@@ -182,7 +183,7 @@ const ResourcesTable = ({
                   <VSCodeButton
                     title="Open Resource"
                     appearance="primary"
-                    className="w-full"
+                    className="w-full bg-primary"
                     onClick={() =>
                       openResource(
                         downloadedResources.find(
@@ -201,64 +202,6 @@ const ResourcesTable = ({
       </table>
     </div>
   );
-};
-
-const useResourcesTypes = () => {
-  const [resourcesTypes, setResourcesTypes] = useState<
-    {
-      value: string;
-      label: string;
-    }[]
-  >([]);
-
-  useEffect(() => {
-    // setMessageListeners((event) => {
-    //   switch (event.data.type) {
-    //     case "SET_RESOURCES_TYPES":
-    //       setResourcesTypes(event.data.payload.resourcesTypes ?? []);
-    //       break;
-    //   }
-    // });
-    // postMessage({ type: MessageType.INIT_DATA, payload: {} });
-  }, []);
-
-  return { resourcesTypes, setResourcesTypes };
-};
-
-const useResourceTableData = () => {
-  const [resourceTableData, setResourceTableData] = useState<
-    ResourceDisplay<Record<string, unknown>>[] // FIXME: type fullResource
-  >([]);
-
-  useEffect(() => {
-    // setMessageListeners((event) => {
-    //   switch (event.data.type) {
-    //     case "SET_RESOURCE_TABLE_DATA":
-    //       setResourceTableData(event.data.payload.tableData ?? []);
-    //       break;
-    //   }
-    // });
-  }, []);
-
-  return { resourceTableData };
-};
-
-const useDownloadedResources = () => {
-  const [downloadedResources, setDownloadedResources] = useState<
-    DownloadedResource[]
-  >([]);
-
-  useEffect(() => {
-    // setMessageListeners((event) => {
-    //   switch (event.data.type) {
-    //     case "SET_DOWNLOADED_RESOURCES":
-    //       setDownloadedResources(event.data.payload.downloadedResources ?? []);
-    //       break;
-    //   }
-    // });
-  }, []);
-
-  return { downloadedResources };
 };
 
 const useImportOfflineResource = () => {

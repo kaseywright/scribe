@@ -96,7 +96,10 @@
     "@theia/vsx-registry": "1.51.0",
     "@theia/workspace": "1.51.0",
     "fs-extra": "^9.0.1",
-    "scribe-ui": "0.0.1"
+    "scribe-ui": "0.0.1",
+    "scribe-resources-manager": "0.0.1",
+    "@scribe/theia-utils": "0.0.1",
+    "scribe-usfm-editor": "0.0.0"
   },
   "devDependencies": {
     "@theia/cli": "1.51.0",

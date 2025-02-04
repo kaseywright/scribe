@@ -5,17 +5,20 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/utils/clsx";
 
 const buttonVariants = cva(
-  "inline-flex items-center rounded-lg dark:text-zinc-50 text-zinc-700  text-xs justify-center whitespace-nowrap rounded-md font-normal transition-colors focus:outline-none gap-[5px]   disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center rounded-lg text-foreground text-xs justify-center whitespace-nowrap rounded-md font-normal transition-colors focus:outline-none gap-[5px] disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: "bg-primary  hover:bg-primary/90",
-        destructive: "bg-destructive hover:bg-destructive/90",
+        default:
+          "bg-primary text-white hover:bg-[var(--theia-button-hoverBackground)]",
+        destructive:
+          "bg-destructive text-destructive-foreground hover:bg-[var(--theia-statusBarItem-errorBackground)]",
         outline:
-          "border dark:border-zinc-800  border-zinc-200 hover:bg-zinc-100 bg-zinc-50 dark:bg-zinc-900",
-        secondary: "bg-secondary hover:bg-secondary/80",
+          "border border-border bg-input hover:bg-[var(--theia-toolbar-hoverBackground)]",
+        secondary:
+          "bg-secondary hover:bg-[var(--theia-button-secondaryHoverBackground)] text-secondary-foreground",
         ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "underline-offset-4 hover:underline",
+        link: "text-accent underline-offset-4 hover:underline",
       },
       size: {
         default: "h-8 px-2 py-2.5",

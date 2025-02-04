@@ -43,7 +43,7 @@ export class MainEditorRightWidget extends ReactWidget {
   }
   protected render(): React.ReactNode {
     return (
-      <>
+      <div className='bg-[var(--theia-editor-background)]'>
         <ChapterReading
           version="NLT"
           chapterName="Mark"
@@ -60,9 +60,9 @@ Clear the road for him!&quot;
 preached that people should be baptized to show that they had repented of
 their sins and turned to God to be forgiven. 5 All of Judea, including all the
 people of Jerusalem, went out to see and hear John. And when they
-confessed their sins, he baptized them in the Jordan River."
+          confessed their sins, he baptized them in the Jordan River."
         />
-      </>
+      </div>
     );
   }
 }

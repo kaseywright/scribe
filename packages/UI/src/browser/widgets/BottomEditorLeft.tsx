@@ -48,7 +48,7 @@ export class BottomEditorLeft extends ReactWidget {
   }
   protected render(): React.ReactNode {
     return (
-      <ResizablePanelGroup direction="vertical" className="w-full">
+      <ResizablePanelGroup direction="vertical" className="w-full bg-[var(--theia-editor-background)]">
         <ResizablePanel defaultSize={50}>
           <div className="px-5 py-2.5 space-y-5">
             <div className="flex items-center gap-2">
@@ -57,7 +57,7 @@ export class BottomEditorLeft extends ReactWidget {
                 Alignment
               </p>
             </div>
-            <p className="dark:text-zinc-50 text-zinc-700 text-sm  font-medium tracking-wide leading-4">
+            <p className="text-[var(--theia-settings-textInputForeground)] text-sm  font-medium tracking-wide leading-4">
               Cierto dia, Jesús llegó de Nazaret de Galilea, y Juan lo bautizó
               en el rio Jordán.
             </p>
@@ -65,14 +65,14 @@ export class BottomEditorLeft extends ReactWidget {
         </ResizablePanel>
         <ResizableHandle />
         <ResizablePanel className="p-5" defaultSize={50}>
-          <p className="dark:text-zinc-50 text-zinc-700 dark:selection:bg-emerald-500 selection:bg-emerald-100  text-sm tracking-wide font-medium leading-4">
-            <span className="dark:bg-emerald-500 bg-emerald-100">
+          <p className="text-[var(--theia-settings-textInputForeground)] text-sm  font-medium tracking-wide leading-4">
+            <span className="bg-emerald-100 ">
               One day Jesus
             </span>{" "}
             went from{" "}
-            <span className="dark:bg-emerald-500 bg-emerald-100">Nazareth</span>{" "}
+            <span className="bg-emerald-100 ">Nazareth</span>{" "}
             in{" "}
-            <span className="dark:bg-emerald-500 bg-emerald-100">
+            <span className="bg-emerald-100 ">
               Galilee,{" "}
             </span>{" "}
             and James I baptized him in the river.

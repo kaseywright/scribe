@@ -45,6 +45,10 @@ body {
   cursor: text;
 }
 
+.main-content-panel {
+  background: rgb(var(--theia-main-content-panel));
+}
+
 /* Editor */
 
 .editor-input {
@@ -794,6 +798,10 @@ body {
 }
 .text-spacing[dir="rtl"] .usfm_q1 {
   margin-right: 15vw;
+}
+
+.p-TabBar-content-container {
+  background: rgb(var(--theia-main-content-panel));
 }
 
 .formatted-font .usfm_q2 {

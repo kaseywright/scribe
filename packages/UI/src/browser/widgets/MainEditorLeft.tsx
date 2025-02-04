@@ -61,7 +61,7 @@ export class MainEditorLeftWidget extends ReactWidget {
   }
   protected render(): React.ReactNode {
     return (
-      <>
+      <div className="bg-[var(--theia-editor-background)]">
         <div>DATA FROM THE STORAGE: {this.data}</div>
         <ChapterReading
           version="NTV"
@@ -69,7 +69,7 @@ export class MainEditorLeftWidget extends ReactWidget {
           verse="1"
           scripture='Marcos 1 Juan el Bautista prepara el camino &apos; Esta es la Buena Noticia acerca de Jesús el Mesías, el Hijo de Dios. Comenzó 2 tal como el profeta Isaías había escrito: «Mira, envio a mi mensajero delante de ti, y él preparará tu camino. 3 Es una voz que clama en el desierto: "¡Preparen el camino para la venida del Señor! ¡Ábranle camino!"». 4 Ese mensajero era Juan el Bautista. Estaba en el desierto y predicaba que la gente debía ser bautizada para demostrar que se había arrepentido de sus pecados y vuelto a Dios para ser perdonada. 5 Toda la gente de Judea, incluidos los habitantes de Jerusalén, salían para ver y oír a Juan; y cuando confesaban sus pecados, él los bautizaba en el río Jordán.'
         />
-      </>
+      </div>
     );
   }
 }

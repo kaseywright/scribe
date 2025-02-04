@@ -68,7 +68,7 @@ export class AiSidebar extends ReactWidget {
 
           <QuestionCard />
 
-          <div className=" absolute bottom-0 pt-4 pb-[11px] bg-white dark:bg-zinc-950 w-full left-0 px-5">
+          <div className=" absolute bottom-0 pt-4 pb-[11px] bg-[var(rgb(245 245 245 / 0.4))] w-full left-0 px-5">
             <div className="relative">
               <Textarea
                 className="h-20"

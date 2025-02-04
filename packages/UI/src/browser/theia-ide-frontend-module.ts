@@ -20,6 +20,7 @@ import { ToolbarDefaultsFactory } from "@theia/toolbar/lib/browser/toolbar-defau
 import { bindAllToolbarContributions } from "./toolbar-contributions";
 import { bindAllWidgetsContributions } from "./widgets";
 import { LayoutManager } from "./layout-manager";
+import { ScribeCustomTheme } from "./theme";
 
 export default new ContainerModule((bind, _unbind, isBound, rebind) => {
   bind(ScribeTheiaContribution).toSelf();
@@ -38,4 +39,5 @@ export default new ContainerModule((bind, _unbind, isBound, rebind) => {
   bindAllToolbarContributions(bind);
   bindAllWidgetsContributions(bind);
   bind(LayoutManager).toSelf().inSingletonScope();
+  bind(ScribeCustomTheme).toSelf().inSingletonScope();
 });

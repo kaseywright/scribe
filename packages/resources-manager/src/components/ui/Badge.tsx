@@ -4,21 +4,21 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../utils/clsx";
 
 const badgeVariants = cva(
-  "inline-flex items-center justify-center   tracking-wider font-bold transition-colors focus:outline-none ",
+  "inline-flex items-center justify-center tracking-wider font-bold transition-colors focus:outline-none",
   {
     variants: {
       variant: {
         default:
-          "border-transparent border rounded-full px-2 py-[5px] uppercase text-[8px] dark:bg-cyan-500 bg-cyan-400 text-zinc-800 dark:text-zinc-950",
+          "border-transparent border rounded-full px-2 py-[5px] uppercase text-[8px] dark:bg-primary bg-primary text-foreground",
         secondary:
-          "h-4 w-4 text-[8px]  rounded-full tracking-wider bg-cyan-400 text-zinc-800 dark:text-zinc-950",
+          "h-4 w-4 text-[8px] rounded-full tracking-wider bg-primary text-foreground",
         destructive:
-          "dark:border-cyan-900 bg-cyan-100 dark:bg-cyan-950 border border-cyan-300 text-cyan-700 rounded-lg px-[6px] py-1 text-[10px]",
+          "border-destructive bg-[var(--theia-statusBarItem-errorForeground)] dark:bg-destructive border text-destructive-foreground rounded-lg px-[6px] py-1 text-[10px]",
         "destructive-clear-bg":
-          "border rounded-lg px-[6px] py-1 text-[10px] bg-transparent border-grey-300 dark:border-grey-700",
-        outline: "text-foreground border",
+          "border rounded-lg px-[6px] py-1 text-[10px] bg-transparent border-muted",
+        outline: "text-foreground border border-muted",
         rounded:
-          "h-[22px] w-[22px] dark:border-cyan-900 bg-cyan-100 dark:bg-cyan-950 border border-cyan-300 text-cyan-700 rounded-full",
+        "h-[22px] w-[22px] border  hover:bg-cyan-800 bg-[var(--theia-statusBarItem-errorForeground)]  text-cyan-700 rounded-full",
       },
     },
     defaultVariants: {

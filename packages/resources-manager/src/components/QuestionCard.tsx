@@ -14,7 +14,7 @@ export default function QuestionCard({
   return (
     <>
       {isAudio ? (
-        <div className="rounded-3xl space-y-3  relative  dark:bg-zinc-900 bg-zinc-100 py-3 px-5 font-normal">
+        <div className="rounded-3xl space-y-3  relative   bg-[var(--theia-secondaryButton-foreground)] py-3 px-5 font-normal">
           <Badge variant="rounded" className="absolute  -top-2 -left-4 z-5">
             <IconMessage size={12} stroke={1.5} strokeLinejoin="miter" />
           </Badge>
@@ -36,7 +36,7 @@ export default function QuestionCard({
           </p>
         </div>
       ) : isImage ? (
-        <div className="rounded-3xl  relative gap-2.5 w-full  flex  dark:bg-zinc-900 bg-zinc-100 py-3 px-5 font-normal">
+        <div className="rounded-3xl space-y-3  relative   bg-[var(--theia-secondaryButton-foreground)] py-3 px-5 font-normal">
           <Badge variant="rounded" className="absolute  -top-2 -left-4 z-5">
             <IconMessage size={12} stroke={1.5} strokeLinejoin="miter" />
           </Badge>
@@ -67,7 +67,7 @@ export default function QuestionCard({
           </div>
         </div>
       ) : (
-        <div className="rounded-3xl  gap-2.5  w-full relative  flex  dark:bg-zinc-900 bg-zinc-100 py-3 px-5 font-normal">
+        <div className="rounded-3xl space-y-3  relative   bg-[var(--theia-secondaryButton-foreground)] py-3 px-5 font-normal">
           <Badge variant="rounded" className="absolute  -top-2 -left-4 z-5">
             <IconMessage size={12} stroke={1.5} strokeLinejoin="miter" />
           </Badge>

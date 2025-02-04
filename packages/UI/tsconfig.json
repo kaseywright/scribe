@@ -4,7 +4,8 @@
     "rootDir": "src",
     "outDir": "lib",
     "baseUrl": ".",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "resolveJsonModule": true
   },
-  "include": ["src", "svg.d.ts"]
+  "include": ["src", "svg.d.ts", "src/**/*.json"]
 }

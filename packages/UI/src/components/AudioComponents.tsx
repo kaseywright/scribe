@@ -14,11 +14,12 @@ import ChapterReading from "./ChapterReading";
 
 function AudioComponents() {
   return (
-    <ChapterReading
-      version="NLT"
-      chapterName="Mark"
-      verse="1"
-      scripture="John the Baptist Prepares the Way
+    <div className="bg-[var(--theia-editor-background)]">
+      <ChapterReading
+        version="NLT"
+        chapterName="Mark"
+        verse="1"
+        scripture="John the Baptist Prepares the Way
 1 This is the Good News about Jesus the Messiah, the Son of God. It began 2
 just as the prophet Isaiah had written:
 &quot;Look, I am sending my messenger ahead of you,
@@ -30,8 +31,9 @@ Clear the road for him!&quot;
 preached that people should be baptized to show that they had repented of
 their sins and turned to God to be forgiven. 5 All of Judea, including all the
 people of Jerusalem, went out to see and hear John. And when they
-confessed their sins, he baptized them in the Jordan River."
-    />
+        confessed their sins, he baptized them in the Jordan River."
+      />
+    </div>
   );
 }
 

@@ -107,9 +107,9 @@ export class ResourcesPickerWidget extends ReactDialog<void> {
     };
     return (
       <div className="w-[90vw] h-[80vh] top-0   flex relative gap-3 justify-between">
-        <VerseRefInput
+        {/* <VerseRefInput
           setVerseRef={(verseRef) => this.verseRefUtils.setVerseRef(verseRef)}
-        />
+        /> */}
 
         <Tabs
           defaultValue={allUngroupedResources[0].id}
@@ -229,49 +229,49 @@ interface VerseRefInputProps {
   setVerseRef: (verseRef: VerseRefValue) => void;
 }
 
-const VerseRefInput: React.FC<VerseRefInputProps> = ({ setVerseRef }) => {
-  const [book, setBook] = React.useState("");
-  const [chapter, setChapter] = React.useState("");
-  const [verse, setVerse] = React.useState("");
+// const VerseRefInput: React.FC<VerseRefInputProps> = ({ setVerseRef }) => {
+//   const [book, setBook] = React.useState("");
+//   const [chapter, setChapter] = React.useState("");
+//   const [verse, setVerse] = React.useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setVerseRef({ book, chapter: parseInt(chapter), verse: parseInt(verse) });
-  };
+//   const handleSubmit = (e: React.FormEvent) => {
+//     e.preventDefault();
+//     setVerseRef({ book, chapter: parseInt(chapter), verse: parseInt(verse) });
+//   };
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="book">Book:</label>
-        <input
-          type="text"
-          id="book"
-          placeholder="Book"
-          value={book}
-          onChange={(e) => setBook(e.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="chapter">Chapter:</label>
-        <input
-          type="number"
-          id="chapter"
-          placeholder="Chapter"
-          value={chapter}
-          onChange={(e) => setChapter(e.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="verse">Verse:</label>
-        <input
-          type="number"
-          id="verse"
-          placeholder="Verse"
-          value={verse}
-          onChange={(e) => setVerse(e.target.value)}
-        />
-      </div>
-      <button type="submit">Set Verse Ref</button>
-    </form>
-  );
-};
+//   return (
+//     <form onSubmit={handleSubmit}>
+//       <div>
+//         <label htmlFor="book">Book:</label>
+//         <input
+//           type="text"
+//           id="book"
+//           placeholder="Book"
+//           value={book}
+//           onChange={(e) => setBook(e.target.value)}
+//         />
+//       </div>
+//       <div>
+//         <label htmlFor="chapter">Chapter:</label>
+//         <input
+//           type="number"
+//           id="chapter"
+//           placeholder="Chapter"
+//           value={chapter}
+//           onChange={(e) => setChapter(e.target.value)}
+//         />
+//       </div>
+//       <div>
+//         <label htmlFor="verse">Verse:</label>
+//         <input
+//           type="number"
+//           id="verse"
+//           placeholder="Verse"
+//           value={verse}
+//           onChange={(e) => setVerse(e.target.value)}
+//         />
+//       </div>
+//       <button type="submit">Set Verse Ref</button>
+//     </form>
+//   );
+// };

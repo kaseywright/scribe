@@ -65,15 +65,15 @@ const ResourceTypeDisplay = ({
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   return (
     <div className="flex flex-col w-full ">
-      <div className="flex  p-2 gap-2 mb-3  justify-between mx-2">
-        <div className="flex gap-1 p-1 rounded-lg ">
+      <div className="flex p-2 gap-2 mb-3 justify-between mx-2">
+        <div className="flex gap-1 p-1 rounded-lg">
           <VSCodeButton
             title="Download"
-            className={`rounded-lg duration-200 downloadButton  font-extrabold border ${
+            className={`rounded-lg duration-200 downloadButton font-extrabold border ${
               activeButton === "download"
-                ? "text-cyan-700 border-cyan-800 bg-cyan-950"
-                : "bg-transparent"
-            } `}
+                ? "text-white border-accent bg-primary"
+                : "bg-transparent text-[var(--theia-settings-textInputForeground)]"
+            }`}
             onClick={() => {
               setActiveButton("download"), setCurrentPage(0);
             }}
@@ -81,12 +81,12 @@ const ResourceTypeDisplay = ({
             DOWNLOAD
           </VSCodeButton>
           <VSCodeButton
-            title="Online "
-            className={`rounded-lg duration-200 downloadButton  font-extrabold border ${
+            title="Online"
+            className={`rounded-lg duration-200 downloadButton font-extrabold border ${
               activeButton === "online"
-                ? "text-cyan-700 border-cyan-800 bg-cyan-950"
-                : "bg-transparent"
-            } `}
+                ? "text-white border-accent bg-primary"
+                : "bg-transparent text-[var(--theia-settings-textInputForeground)]"
+            }`}
             onClick={() => {
               setActiveButton("online"), setCurrentPage(0);
             }}
@@ -94,9 +94,9 @@ const ResourceTypeDisplay = ({
             ONLINE
           </VSCodeButton>
         </div>
-        <div className="w-1/3  text-right items-center ">
+        <div className="w-1/3 text-right items-center">
           <Search
-            className="border  border-gray-300"
+            className="border border-muted"
             placeHolder="Search sjsjdhsj"
             HandleChange={(event) => {
               setSearchTerm(event.target.value);
@@ -104,12 +104,12 @@ const ResourceTypeDisplay = ({
           />
         </div>
       </div>
-      <div className="flex flex-1 justify-between flex-col  gap-2 mx-3 border rounded-md border-gray-300 pb-3  min-h-[55vh]  ">
+      <div className="flex flex-1 justify-between flex-col gap-2 mx-3 border rounded-md border-muted pb-3 min-h-[55vh]">
         <div className="max-h-[50vh] overflow-scroll">
-          <table className="table-auto w-full border-b border-gray-300 p-10  ">
-            <thead className="font-semibold pb-4 ">
+          <table className="table-auto w-full border-b border-muted p-10">
+            <thead className="font-semibold pb-4">
               <tr
-                className="py-3 border-b border-gray-300 sticky "
+                className="py-3 border-b border-muted sticky"
                 style={{ padding: "10px", paddingBottom: "10px" }}
               >
                 <td className="px-4 py-2 w-1/4">Words</td>
@@ -119,12 +119,11 @@ const ResourceTypeDisplay = ({
               </tr>
             </thead>
 
-            <tbody className="gap-3  ">
+            <tbody className="gap-3">
               {paginatedData.length > 0 ? (
                 paginatedData?.map((resource) => (
-                  <tr className="border-b border-gray-300 py-2">
+                  <tr className="border-b border-muted py-2">
                     <td className="px-3">{resource.name}</td>
-
                     <td className="px-4 py-2 w-1/4">
                       {resource.owner.avatarUrl ? (
                         <img
@@ -144,7 +143,7 @@ const ResourceTypeDisplay = ({
                     >
                       {resource.version.tag}
                     </td>
-                    <td className="flex items-center justify-center px-4  py-2 w-1/4">
+                    <td className="flex items-center justify-center px-4 py-2 w-1/4">
                       {!downloadedResources.find(
                         (item) => item.id === resource.id
                       ) ? (
@@ -160,7 +159,7 @@ const ResourceTypeDisplay = ({
                         <VSCodeButton
                           title="Open Resource"
                           appearance="primary"
-                          className="w-full bg-cyan-950 flex justify-center"
+                          className="w-full bg-primary flex justify-center"
                           onClick={() =>
                             openResource(
                               downloadedResources.find(
@@ -185,7 +184,7 @@ const ResourceTypeDisplay = ({
             </tbody>
           </table>
         </div>
-        <div className="flex justify-end gap-2 items-center pt-3 w-full px-2 border-t border-gray-300">
+        <div className="flex justify-end gap-2 items-center pt-3 w-full px-2 border-t border-muted">
           <div className="flex items-center justify-center gap-1 mr-7">
             <h1 className="font-semibold">Rows per page</h1>
             <select
@@ -195,7 +194,7 @@ const ResourceTypeDisplay = ({
                 setCurrentPage(0);
               }}
               id="2"
-              className="rounded-md flex items-center text-center justify-center bg-gray-800 border p-1"
+              className="rounded-md flex items-center text-center justify-center bg-background border p-1"
             >
               <option>7</option>
               <option>10</option>

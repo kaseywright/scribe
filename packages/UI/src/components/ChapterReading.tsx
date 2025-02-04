@@ -15,8 +15,8 @@ export default function ChapterReading({
 	scripture: string;
 }) {
 	return (
-		<div>
-			<div className='flex items-center border-b py-2.5 px-2 dark:border-zinc-900 border-zinc-200 justify-between'>
+		<div className='bg-[var(--theia-editor-background)]'>
+			<div className='flex bg-[var(--theia-editor-background)] items-center border-b py-2.5 px-2  border-[rgb(250 250 250 / 0.1)] justify-between'>
 				<Badge variant='destructive'>{version}</Badge>
 				<div className='flex items-center gap-[5px]'>
 					<Button label={chapterName} />
@@ -34,7 +34,7 @@ export default function ChapterReading({
 			</div>
 			<div className='mt-2.5 font-normal space-y-2 mx-auto max-w-md'>
 				<h2 className='text-cyan-500 leading-5 text-center text-xl tracking-wide'>{`${chapterName} ${verse}`}</h2>
-				<article className='dark:text-zinc-50 text-zinc-700 leading-5   text-xs tracking-wide text-center whitespace-pre-line'>
+				<article className='text-[var(--theia-settings-textInputForeground)]  leading-5   text-xs tracking-wide text-center whitespace-pre-line'>
 					{scripture}
 				</article>
 			</div>

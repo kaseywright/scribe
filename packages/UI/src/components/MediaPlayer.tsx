@@ -11,11 +11,11 @@ interface MediaPlayerProps {
 
 const MediaPlayer = ({ type, source }: MediaPlayerProps) => {
   return (
-    <div className="media-player">
+    <div className="media-player bg-[var(--theia-editor-background)]">
       <div
         className={cn(
           type === "image" ? "border-b mb-2" : "border-t  my-2  border-b",
-          "flex items-center py-2.5 px-2 dark:border-zinc-800 border-zinc-200 justify-between"
+          "flex items-center py-2.5 px-2 border-[rgb(250 250 250 / 0.1)] justify-between"
         )}
       >
         <Badge variant="destructive">NTV</Badge>

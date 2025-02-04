@@ -1,28 +1,48 @@
 .toolbar-wrapper {
-  background-color: white ;
+  background-color: var(--theia-editor-background);
   font-weight: bold;
-  color: rgb(113 113 122);
-
-}  
+  color: var(--theia-editor-foreground);
+}
 .theia-no-open-workspace #theia-statusBar {
-  background-color: white !important;
+  background-color: var(--theia-editor-background);
   font-size: larger;
   font-weight: bold;
-  color: rgb(113 113 122);
+  color: var(--theia-editor-foreground);
 }
+
 .p-Widget.p-DockPanel-widget.ps {
-  background-color: white !important;
-  border-left: 1px solid rgb(228 228 231);
+  background-color: var(--theia-editor-background) !important;
+  border-left: 1px solid var(--theia-editorWidget-border) !important;
+  border-right: 1px solid var(--theia-editorWidget-border) !important;
+  color: var(--theia-editor-foreground);
 }
 
 .p-Widget.theia-sidepanel-toolbar.theia-right-side-panel.p-BoxPanel-child {
-background-color: white;
+  background-color: var(--theia-editor-background);
 }
 
+.p-Widget.theia-sidepanel-toolbar.theia-right-side-panel.p-BoxPanel-child {
+  background-color: var(--theia-editor-background) !important;
+}
+.p-TabBar-content-container {
+  background: var(--theia-editor-background) !important;
+  border-left: 1px solid var(--theia-editorWidget-border) !important;
+}
 
+#theia-main-content-panel,
+#theia-main-content-panel .p-Widget.p-DockPanel-widget {
+  background: var(--theia-editor-background) !important;
+}
+.kb-label {
+  color: var(--theia-settings-textInputForeground) !important;
+}
+.kb table th {
+  color: var(--theia-editor-foreground) !important;
+}
 .p-Widget.p-Panel.p-SplitPanel {
-padding-top: 10px !important;
-
+  padding-top: 10px !important;
+  background-color: var(--theia-editor-background) !important;
+  color: var(--theia-editor-foreground);
 }
 .toolbar-column.left {
   display: none;
@@ -32,7 +52,7 @@ padding-top: 10px !important;
 
 } */
 .p-Widget.p-TabBar-toolbar.ps {
-height: 40px !important;
+  height: 40px !important;
 }
 .item.enabled.toolbar-item.action-label {
   border-radius: 8px;
@@ -42,24 +62,22 @@ height: 40px !important;
   font-size: 14px !important;
   height: 31px;
 
-  border: 1px solid rgb(228 228 231);
+  border: 1px solid var(--theia-editorWidget-border);
 }
-.p-TabBar.theia-app-sides .p-TabBar-tabIcon{
-font-size: 14px !important;
+.p-TabBar.theia-app-sides .p-TabBar-tabIcon {
+  font-size: 14px !important;
 }
 .theia-mod-offline #theia-statusBar .area .element {
-  color: rgb(113 113 122);
+  color: var(--theia-editor-foreground);
 }
-.theia-tabBar-tab-row{
-  background-color: white !important;
-  height: 140px;
-  font-size: larger;
-  font-weight: bold;
-  color: rgb(113 113 122);
-
+.theia-tabBar-tab-row {
+  background-color: var(--theia-editor-background);
+  border-left: 1px solid var(--theia-editorWidget-border);
+  border-right: 1px solid var(--theia-editorWidget-border);
+  color: var(--theia-editor-foreground);
 }
-.toolbar-item  {
-  background-color: rgb(250 250 250)!important;
+.toolbar-item {
+  background-color: var(--theia-editor-background);
   display: flex;
   align-items: center;
   font-weight: 400;
@@ -67,17 +85,10 @@ font-size: 14px !important;
   gap: 4px;
   padding: 0px !important;
   margin: 8px !important;
-
 }
 
 .toolbar-column {
   display: flex;
   align-items: center;
   gap: 10px;
-
 }
-.p-Widget.p-TabBar.theia-app-right.theia-app-sides {
-  border-left: 1px solid rgb(228 228 231);
-
-}
-

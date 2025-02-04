@@ -81,8 +81,8 @@ export const BibleNavigator = ({ verseRefUtils }: BibleNavigatorProps) => {
                   className={`chapter-item p-2 text-center cursor-pointer rounded ${
                     currentRef?.book === book.id &&
                     currentRef?.chapter === chapter.number
-                      ? "bg-blue-500 text-white"
-                      : "bg-blue-100 hover:bg-blue-200"
+                    ? "bg-blue-500 text-white"
+                    : "bg-blue-100 hover:bg-blue-200"
                   }`}
                   onClick={() => handleChapterClick(book.id, chapter.number)}
                 >
