@@ -7,92 +7,176 @@ on:
 
 jobs:
 
-  build:
-    name: ${{ matrix.os }}, Node.js v${{ matrix.node }}
-
+  build-linux:
+    name: Build on Linux - ${{ matrix.arch }}
     strategy:
-      fail-fast: false
       matrix:
-        os: [windows-2019, ubuntu-latest]
-        node: ['20.x']
-
-    runs-on: ${{ matrix.os }}
+        node: ['20.10.0']
+        arch: ['x64', 'arm64']
+    runs-on: ubuntu-latest
     timeout-minutes: 60
+
+    env:
+      NODE_OPTIONS: --max_old_space_size=5120
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # To fetch all history for all branches and tags. (Will be required for caching with lerna: https://github.com/markuplint/markuplint/pull/111)
+          fetch-depth: 0
 
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Use Python 3.x
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10.8'
+      - name: Verify memory setting (Linux)
+        run: echo $NODE_OPTIONS
 
-      - name: set max memory allocation
-        shell: bash
-        run: |    
-          if [[ "$RUNNER_OS" == "Windows" ]]; then      
-            echo "NODE_OPTIONS=--max_old_space_size=5120" >> $GITHUB_ENV    
-          else      
-            export NODE_OPTIONS=--max_old_space_size=5120    
-          fi
-
-      - name: Install
-        shell: bash
+      - name: Update apt and install dependencies
         run: |
-          yarn --skip-integrity-check --network-timeout 100000
+          sudo apt-get install -y libx11-dev libxkbfile-dev libsecret-1-dev
 
-      - name: Build
+      - name: Install dependencies
+        run: yarn --verbose
+
+      - name: Check installed Electron version
+        run: yarn why electron
+
+      - name: Enable debug logging
+        run: echo "DEBUG=electron-builder*" >> $GITHUB_ENV
+
+      - name: Build project
+        run: yarn build:electronCICD
+
+      - name: Packaging for Linux
         run: |
-          yarn build:prod
+          yarn --cwd applications/electron package:cicdLinux --${{ matrix.arch }}
 
-      - name: Packaging
-        run: |
-          yarn --cwd applications/electron package
-
-      - name: Current OS
-        run: |
-          echo ${{matrix.os}}
-
-      - name: Cleanup artifacts
-        if: matrix.os != 'windows-2019'
+      - name: Cleanup artifacts (Linux)
         run: |
           npx rimraf "applications/electron/dist/!(*.deb|*.AppImage|*.dmg)"
-            
+
+      - name: Upload dist(Linux)
+        uses: actions/upload-artifact@v4
+        with:
+          name: Scribe-linux-${{ matrix.arch }}-${{ github.run_id }}-${{ steps.timestamp.outputs.time }}
+          path: applications/electron/dist
+
+      - name: List artifacts-Linux
+        run: |
+          ls -R applications/electron/dist
+
+  build-windows:
+    name: Build on Windows - ${{ matrix.arch }}
+    strategy:
+      matrix:
+        node: ['20.10.0']
+        arch: ['ia32', 'x64', 'arm64']
+    runs-on: windows-2019
+    timeout-minutes: 60
+
+    env:
+      NODE_OPTIONS: --max_old_space_size=5120 
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Use Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Verify memory setting (Windows)
+        run: echo $NODE_OPTIONS
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Check installed Electron version
+        run: yarn why electron
+
+      - name: Build project
+        run: yarn build:electronCICD
+
+      - name: Packaging
+        run: yarn --cwd applications/electron package:cicdWin --${{ matrix.arch }}
+
       - name: Cleanup artifacts Win
-        if: matrix.os == 'windows-2019'
         run: |
           mkdir artifacts
           mv applications/electron/dist/*.exe artifacts
 
-      - name: Upload dist(Linux & Mac)
-        if: matrix.os != 'windows-2019'
-        uses: actions/upload-artifact@v3
-        with:
-          name: Scribe
-          path: applications/electron/dist
-
       - name: Upload artifacts(Windows)
-        if: matrix.os == 'windows-2019'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: Scribe
+          name: Scribe-win-${{ matrix.arch }}-${{ github.run_id }}-${{ steps.timestamp.outputs.time }}
           path: artifacts
 
-      - name: List artifacts-Linux
-        if: matrix.os != 'windows-2019'
-        run: |
-          ls -R applications/electron/dist
-
       - name: List artifacts-Windows
-        if: matrix.os == 'windows-2019'
         run: |
           dir artifacts
+
+  build-mac:
+    name: Build on macOS - ${{ matrix.arch }}
+    strategy:
+      matrix:
+        node: ['20.10.0']
+        arch: ['x64', 'arm64']
+    runs-on: macos-latest
+    timeout-minutes: 60
+
+    env:
+      NODE_OPTIONS: --max_old_space_size=5120 
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+          
+      - name: Use Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Verify memory setting (macOS)
+        run: echo $NODE_OPTIONS
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Check installed Electron version
+        run: yarn why electron
+
+      - name: Build project
+        run: yarn build:electronCICD
+
+      - name: Packaging for macOS
+        run: yarn --cwd applications/electron package:cicdMac --${{ matrix.arch }}
+
+      - name: Cleanup artifacts (macOS)
+        run: |
+          mkdir artifacts
+          mv applications/electron/dist/*.dmg artifacts
+
+      - name: Upload artifacts (macOS)
+        uses: actions/upload-artifact@v4
+        with:
+          name: Scribe-mac-${{ matrix.arch }}-${{ github.run_id }}-${{ steps.timestamp.outputs.time }}
+          path: artifacts
+
+      - name: List artifacts (macOS)
+        run: |
+          ls artifacts
