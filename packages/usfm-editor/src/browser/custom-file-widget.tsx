@@ -31,11 +31,10 @@ export class CustomFileWidget extends ReactWidget implements Saveable {
     if (this.currentUsj && this.uri) {
       console.log("Frontend: Saving file");
       try {
-        // Convert USJ back to USFM
         await this.serializeContent();
         // Save the USFM content to file
-        console.log("Frontend: Writing to file:", this.uri, this.currentUsfm);
-        await this.fileService.write(this.uri, this.currentUsfm);
+        console.log("Frontend: Writing to file:", this.uri, this.editedUsj);
+        await this.fileService.write(this.uri, this.editedUsj);
         // await this.fileService.write(fileToWrite, content);
 
         this.dirty = false;
@@ -47,7 +46,7 @@ export class CustomFileWidget extends ReactWidget implements Saveable {
       }
     }
   }
-  private currentUsfm: string;
+  private editedUsj: string;
   private bookId: string;
   private currentUsj: Usj | null = null;
   static readonly ID = "custom-file-widget";
@@ -100,11 +99,8 @@ export class CustomFileWidget extends ReactWidget implements Saveable {
   }
 
   protected async parseContent(): Promise<void> {
-    console.log("Frontend: parseContent called");
-    const jsonString = await this.fileProcessorService.processFileContent(
-      this.fileContent
-    );
-    this.processedContent = JSON.parse(jsonString);
+    console.log("Frontend: parseContent called", this.fileContent);
+    this.processedContent = JSON.parse(this.fileContent);
     console.log("Frontend: Processed content received");
     this.dirty = true;
     this.onDirtyChangedEmitter.fire(undefined);
@@ -113,11 +109,12 @@ export class CustomFileWidget extends ReactWidget implements Saveable {
   protected async serializeContent(): Promise<void> {
     console.log("Frontend: serializeContent called");
     if (this.currentUsj) {
-      const usfm = await this.fileProcessorService.serializeUsj(
-        this.currentUsj
-      );
-      this.currentUsfm = usfm;
-      console.log("Frontend: Serialized content:", usfm);
+      // const usfm = await this.fileProcessorService.serializeUsj(
+      //   this.currentUsj
+      // );
+      const usj = JSON.stringify(this.currentUsj);
+      this.editedUsj = usj;
+      console.log("Frontend: Serialized content:", usj);
     }
   }
 

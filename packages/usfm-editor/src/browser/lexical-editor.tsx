@@ -26,7 +26,7 @@ export interface ScriptureReference {
 }
 const defaultUsj: Usj = {
   type: "USJ",
-  version: "0.2.1",
+  version: "3.1",
   content: [],
 };
 const defaultScrRef: ScriptureReference = {
@@ -108,7 +108,7 @@ export default function LexicalEditor({
 
   return (
     <div className="lexical-editor-container">
-      <div className="editor-wrapper p-4">
+      <div className="editor-wrapper p-4 text-gray-600">
         <Editor
           usjInput={usj}
           ref={editorRef}
