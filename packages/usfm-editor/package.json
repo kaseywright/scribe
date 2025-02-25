@@ -9,14 +9,14 @@
     "src"
   ],
   "dependencies": {
-    "@biblionexus-foundation/scribe-editor": "^0.1.0",
+    "@biblionexus-foundation/scribe-editor": "^0.1.1",
     "@biblionexus-foundation/scripture-utilities": "^0.0.7",
+    "@scribe/theia-utils": "0.0.1",
     "@theia/core": "1.51.0",
     "@theia/editor": "1.51.0",
     "@theia/plugin": "1.51.0",
     "@theia/plugin-ext": "1.51.0",
-    "sj-usfm-grammar": "^3.0.8",
-    "@scribe/theia-utils": "0.0.1"
+    "sj-usfm-grammar": "^3.0.8"
   },
   "devDependencies": {
     "@testing-library/react": "^11.2.7",

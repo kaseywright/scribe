@@ -1,20 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* Editor */
-
-.editor-input {
-  text-align: start;
-}
-
-.editor-input > p {
-  direction: inherit;
-  margin-top: 0;
-  margin-bottom: 0;
-  line-height: 1.5;
-}
-
 /* USJ Nodes */
 
 .leadingFloat {
@@ -2408,68 +2391,91 @@ span.read img {
   background-position: center;
 }
 
-/* NodesMenu.css */
-
-.user-input-container {
-  border-radius: 0.5rem;
-  border: 1px solid rgba(229, 231, 235, 1);
-  background-color: rgba(252, 252, 252, 1);
-  padding: 1rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
-.input-header {
-  margin-bottom: 0.5rem;
-  font-size: 1.125rem;
-  font-weight: 500;
-  color: rgba(25, 25, 25, 1);
-}
-
-.user-input-container input {
-  width: 100%;
-  border-radius: 0.25rem;
-  border: 1px solid rgba(209, 213, 219, 1);
-  padding: 0.5rem;
-  margin-bottom: 0.75rem;
-  background-color: white;
-  color: rgba(25, 25, 25, 1);
-}
-
-.user-input-container input:focus {
-  outline: none;
-  border-color: rgba(18, 82, 179, 1);
-  box-shadow: 0 0 0 3px rgba(18, 82, 179, 0.3);
-}
-
-.input-actions {
+.editor-input {
   display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+/*----*/
+
+.formatted-font .usfm_c {
+  margin: 0;
+  display: block;
+  break-before: column;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 16px;
+  color: #0fb6d4;
+}
+.usfm_b {
+  display: none;
+}
+.formatted-font .usfm_c::before {
+  content: "Chapter : ";
 }
 
-.cancel-button {
-  border-radius: 0.25rem;
-  background-color: rgba(229, 231, 235, 1);
-  padding: 0.25rem 0.75rem;
-  color: rgba(25, 25, 25, 1);
-  border: none;
-  cursor: pointer;
+.text-spacing[dir="ltr"] .usfm_c {
+  padding-left: 1rem;
+  text-align: left;
 }
 
-.cancel-button:hover {
-  background-color: rgba(209, 213, 219, 1);
+.text-spacing[dir="rtl"] .usfm_c {
+  padding-right: 1rem;
+  text-align: right;
 }
 
-.apply-button {
-  border-radius: 0.25rem;
-  background-color: rgba(18, 82, 179, 1);
-  color: white;
-  padding: 0.25rem 0.75rem;
-  border: none;
-  cursor: pointer;
+.usfm_s {
+  text-align: center;
+  font-size: 16px;
+}
+.usfm_id {
+  font-size: 14px;
+  font-weight: lighter;
+  text-align: center;
+  /* color: #0fb6d4; */
+  margin: 0;
+  text-transform: uppercase;
 }
 
-.apply-button:hover {
-  background-color: rgba(15, 65, 143, 1);
+.formatted-font .usfm_s1 {
+  font-weight: bold;
+  font-size: 100%;
+  margin: 0;
+  /* text-transform: uppercase; */
+  /* color: #0fb6d4; */
 }
+.text-spacing .usfm_s1 {
+  text-align: center;
+  margin-bottom: 3pt;
+  margin-top: 3pt;
+}
+
+.formatted-font .usfm_p {
+  font-size: 100%;
+  margin: 0;
+}
+.text-spacing .usfm_p {
+  text-indent: 2.5vw;
+}
+
+.formatted-font .usfm_q1 {
+  font-size: 100%;
+}
+.usfm_v {
+  letter-spacing: 0.05em;
+  /* color: #0fb6d4; */
+  text-transform: uppercase;
+  margin-right: 2px;
+}
+/* .text-spacing .usfm_q1 {
+  text-indent: -10vw;
+} */
+/* .text-spacing[dir="ltr"] .usfm_q1 {
+  margin-left: 15vw;
+}
+.text-spacing[dir="rtl"] .usfm_q1 {
+  margin-right: 15vw;
+} */ */
+

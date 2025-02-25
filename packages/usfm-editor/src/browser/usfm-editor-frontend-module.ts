@@ -1,5 +1,6 @@
 import { ContainerModule } from "@theia/core/shared/inversify";
-// import "../../lib/output-tailwind.css";
+import "../../src/browser/style/usfm-editor.css";
+import "../../src/browser/style/nodes-menu.css";
 import {
   OpenHandler,
   WidgetFactory,
