@@ -1,20 +1,22 @@
 import * as React from "@theia/core/shared/react";
 import { useState, useEffect } from 'react';
 
-// type Image = {
-//     id: string;
-//     url: string;
-//     title: string;
-// }
-
 const ImageList: React.FC = () => {    
     const [images, setImages] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    //todo: some sort of environment vars or config file for these...
+    let api_key="foo"
+    let api_base_url="http://bar"
+    let bibleBookCode="GEN"
+
+    let fetchImageIdsUrl = `${api_base_url}/resources/search?BookCode=${bibleBookCode}&ResourceType=Images&api-key=${api_key}`
+
+
     useEffect(() => {
         const fetchImages = async () => {
             try {
-                const response = await fetch('https://api.aquifer.bible/resources/search?BookCode=GEN&ResourceType=Images&api-key=', {
+                const response = await fetch(`${fetchImageIdsUrl}`, {
                     headers: {
                         'Access-Control-Allow-Origin': '*'
                     }
