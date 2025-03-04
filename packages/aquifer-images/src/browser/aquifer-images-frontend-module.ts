@@ -2,9 +2,9 @@
  * Generated using theia-extension-generator
  */
 import { ContainerModule } from '@theia/core/shared/inversify';
-import { AquiferContribution } from './tsa2025-contribution';
+import { AquiferContribution } from './aquifer-images-contribution';
 import { bindViewContribution, FrontendApplicationContribution, WidgetFactory } from '@theia/core/lib/browser';
-import { AquiferWidget } from './tsa2025-widget';
+import { AquiferWidget } from './aquifer-images-widget';
 
 
 export default new ContainerModule(bind => {

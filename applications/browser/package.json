@@ -21,7 +21,7 @@
     "scribe-resources-manager": "0.0.1",
     "@scribe/theia-utils": "0.0.1",
     "scribe-usfm-editor": "0.0.0",
-    "tsa2025": "0.0.0"
+    "aquifer-images": "0.0.0"
   },
   "devDependencies": {
     "@theia/cli": "1.51.0"
