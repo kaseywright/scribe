@@ -14,7 +14,7 @@ const ImageList: React.FC = () => {
     useEffect(() => {
         const fetchImages = async () => {
             try {
-                const response = await fetch('https://api.aquifer.bible/resources/search?BookCode=GEN&ResourceType=Images&api-key=8b55d5dbb4dd4cd5a7d1e85d6d6d738b', {
+                const response = await fetch('https://api.aquifer.bible/resources/search?BookCode=GEN&ResourceType=Images&api-key=', {
                     headers: {
                         'Access-Control-Allow-Origin': '*'
                     }
