@@ -8,7 +8,7 @@ import { Message } from "@theia/core/lib/browser/widgets/widget";
 @injectable()
 export class AquiferWidget extends ReactWidget {
     static ID = "AquiferWidget";
-    static LABEL = "AquiferWidget";
+    static LABEL = "Aquifer Widget";
 
     @inject(MessageService)
     protected readonly messageService: MessageService;
