@@ -1,5 +1,5 @@
 {
-  "name": "tsa2025",
+  "name": "aquifer-images",
   "keywords": [
     "theia-extension"
   ],
@@ -23,7 +23,7 @@
   },
   "theiaExtensions": [
     {
-      "frontend": "lib/browser/tsa2025-frontend-module"
+      "frontend": "lib/browser/aquifer-images-frontend-module"
     }
   ]
 }
