@@ -1,7 +1,7 @@
 import { injectable } from '@theia/core/shared/inversify';
 import { AbstractViewContribution } from '@theia/core/lib/browser';
 import { Command, CommandRegistry } from '@theia/core/lib/common/command';
-import { AquiferWidget } from './tsa2025-widget';
+import { AquiferWidget } from './aquifer-images-widget';
 import { MenuModelRegistry } from '@theia/core';
 
 export const AquiferCommand: Command = { id: 'aquifer:command' };
@@ -12,7 +12,7 @@ export class AquiferContribution extends AbstractViewContribution<AquiferWidget>
         super({
             widgetId: AquiferWidget.ID,
             widgetName: AquiferWidget.LABEL,
-            defaultWidgetOptions: { area: 'left' },
+            defaultWidgetOptions: { area: 'right' },
             toggleCommandId: AquiferCommand.id
         });
     }
