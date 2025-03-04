@@ -7,7 +7,6 @@ import { MenuModelRegistry } from '@theia/core';
 export const AquiferCommand: Command = { id: 'aquifer:command' };
 
 @injectable()
-// Add contribution interface to be implemented, e.g. "Tsa2025Contribution implements CommandContribution"
 export class AquiferContribution extends AbstractViewContribution<AquiferWidget> {
     constructor() {
         super({
