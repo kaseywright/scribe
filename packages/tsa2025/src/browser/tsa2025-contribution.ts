@@ -13,7 +13,7 @@ export class AquiferContribution extends AbstractViewContribution<AquiferWidget>
         super({
             widgetId: AquiferWidget.ID,
             widgetName: AquiferWidget.LABEL,
-            defaultWidgetOptions: { area: 'left' },
+            defaultWidgetOptions: { area: 'right' },
             toggleCommandId: AquiferCommand.id
         });
     }
