@@ -59,15 +59,7 @@ const ImageList: React.FC = () => {
                 console.log('API Key available:', apiKey ? 'Yes' : 'No');
                 
                 try {
-                    const response = await fetch(`${apiUrl}/resources/search?BookCode=GEN&ResourceType=Images&api-key=${apiKey}`, {
-                        headers: {
-                            'Access-Control-Allow-Origin': '*'
-                        }
-                    });
-                    
-                    if (!response.ok) {
-                        throw new Error(`API responded with status: ${response.status}`);
-                    }
+                    const response = await fetch(`${apiUrl}/resources/search?BookCode=GEN&ResourceType=Images&api-key=${apiKey}&languageId=1`);
                     
                     const data = await response.json();
                     console.log('API response:', data);
