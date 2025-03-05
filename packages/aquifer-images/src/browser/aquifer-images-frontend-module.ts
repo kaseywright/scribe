@@ -7,16 +7,19 @@ import { bindViewContribution, FrontendApplicationContribution, WidgetFactory } 
 import { AquiferWidget } from './aquifer-images-widget';
 import { EnvConfigService } from './env-config-service';
 
-
 export default new ContainerModule(bind => {
+    // Bind the environment config service first
+    bind(EnvConfigService).toSelf().inSingletonScope();
 
-    bindViewContribution(bind, AquiferContribution)
+    bindViewContribution(bind, AquiferContribution);
     bind(FrontendApplicationContribution).toService(AquiferContribution);
+    
+    // Bind the widget
     bind(AquiferWidget).toSelf();
+    
+    // Use a standard synchronous widget factory
     bind(WidgetFactory).toDynamicValue(ctx => ({
         id: AquiferWidget.ID,
-        createWidget: () => ctx.container.get<AquiferWidget>(AquiferWidget),
+        createWidget: () => ctx.container.get<AquiferWidget>(AquiferWidget)
     })).inSingletonScope();
-    // Bind the environment config service
-    bind(EnvConfigService).toSelf().inSingletonScope();
 });
