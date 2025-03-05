@@ -1,6 +1,7 @@
 import * as React from "@theia/core/shared/react";
 import { useState, useEffect } from 'react';
 import { EnvConfigContext } from '../browser/aquifer-images-widget';
+
 // type Image = {
 //     id: string;
 //     url: string;
@@ -85,7 +86,7 @@ const ImageList: React.FC = () => {
         };
 
         fetchImages();
-        
+
         return () => {
             mounted = false;
         };
@@ -105,10 +106,12 @@ const ImageList: React.FC = () => {
     
     return (
         <div>
+
             {images.map((image: ImageData) => (
                 <div key={image.id || Math.random().toString()}>
                     {image.url && <img src={image.url} alt={image.title || 'Image'} />}
                     {image.title && <p>{image.title}</p>}
+
                 </div>
             ))}
         </div>

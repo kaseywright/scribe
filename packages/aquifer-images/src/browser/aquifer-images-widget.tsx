@@ -9,7 +9,7 @@ import { EnvConfigService } from './env-config-service';
 
 // Create a React context for the EnvConfigService
 export const EnvConfigContext = React.createContext<EnvConfigService | undefined>(undefined);
-
+  
 @injectable()
 export class AquiferWidget extends ReactWidget {
     static ID = "AquiferWidget";
@@ -38,6 +38,7 @@ export class AquiferWidget extends ReactWidget {
     render(): React.ReactElement {
         const header = `This is a sample widget which simply calls the messageService
         in order to display an info message to end users.`;
+
         return (
             <EnvConfigContext.Provider value={this.envConfigService}>
                 <div id='aquifer-container'>

@@ -17,7 +17,6 @@ export default new ContainerModule(bind => {
         id: AquiferWidget.ID,
         createWidget: () => ctx.container.get<AquiferWidget>(AquiferWidget),
     })).inSingletonScope();
-    
     // Bind the environment config service
     bind(EnvConfigService).toSelf().inSingletonScope();
 });
