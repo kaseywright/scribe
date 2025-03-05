@@ -17,13 +17,13 @@ type ResourceImageList = {
 }
 
 const ImageList: React.FC<ImageListProps> = ({ apiKey, apiUrl, isConfigReady = false }) => {    
+    const [urls, setUrls] = useState<string[]>([]);
     const [imageIds, setImageIds] = useState<number[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     // Only fetch images when the config is ready and we have the necessary props
-    useEffect(() => {
-        let isMounted = true;
+    useEffect(() => {        
         
         // If config isn't ready yet, don't try to fetch
         if (!isConfigReady) {
@@ -33,19 +33,17 @@ const ImageList: React.FC<ImageListProps> = ({ apiKey, apiUrl, isConfigReady = f
         async function fetchImages() {
             if (!apiKey) {
                 console.error('API key is not provided');
-                if (isMounted) {
                     setError('API key is not configured');
                     setLoading(false);
-                }
+
                 return;
             }
             
             if (!apiUrl) {
                 console.error('API URL is not provided');
-                if (isMounted) {
                     setError('API URL is not configured');
                     setLoading(false);
-                }
+                
                 return;
             }
             
@@ -56,28 +54,61 @@ const ImageList: React.FC<ImageListProps> = ({ apiKey, apiUrl, isConfigReady = f
                 const response = await fetch(`${apiUrl}/resources/search?BookCode=GEN&ResourceType=Images&api-key=${apiKey}&languageId=1`);
                 const data: ResourceImageList = await response.json();
                 console.log('API response:', data);
-                
-                if (isMounted) {
-                    setImageIds(data.items.map((item) => item.id));
-                    setLoading(false);
-                }
 
-                console.log('Images Ids', imageIds);
+                setImageIds(data.items.map((item) => item.id));
+
+                
+                    console.log('Images Ids', imageIds);
+                
+                
             } catch (error) {
                 console.error('Error fetching images:', error);
-                if (isMounted) {
+                
                     setError('Error loading images from API');
-                    setLoading(false);
-                }
+                    setLoading(false); 
             }
         }
 
         fetchImages();
 
-        return () => {
-            isMounted = false;
-        };
     }, [apiKey, apiUrl, isConfigReady]);
+
+
+    useEffect(() => {
+        // let isMounted = true;
+        // If config isn't ready yet, don't try to fetch
+        if (!isConfigReady) {
+            return;
+        }
+        async function fetchImageUrls() {
+            try {
+
+                    var urls:string[] = [];
+                    imageIds.map(async id => {
+                        const resp = await fetch(`${apiUrl}/resources/${id}?api-key=${apiKey}`);
+                        const respData = await resp.json();
+                        urls.push(respData.content?.url);
+                    });
+                
+                        setUrls(urls);
+                        setLoading(false);
+
+
+                        console.log('Images Urls', urls);
+
+            } catch (error) {
+                console.error('Error fetching url:', error);
+                
+                    setError('Error loading urls from API');
+                    setLoading(false);
+            }
+        }
+        if(imageIds.length > 0){
+            fetchImageUrls();
+        }
+
+    }, [apiKey, apiUrl, isConfigReady, imageIds]);
+
 
     if (!isConfigReady) {
         return <div>Waiting for configuration...</div>;
@@ -91,21 +122,17 @@ const ImageList: React.FC<ImageListProps> = ({ apiKey, apiUrl, isConfigReady = f
         return <div className="error-message">Error: {error}</div>;
     }
     
-    if (imageIds.length === 0) {
+    if (urls.length === 0) {
         return <div>No images found</div>;
     }
     
     return (
         <div>
-            hello
-
-            {/* {imageIds.map((image: ImageData) => (
-                <div key={image.id || Math.random().toString()}>
-                    {image.url && <img src={image.url} alt={image.title || 'Image'} />}
-                    {image.title && <p>{image.title}</p>}
-
+            {urls.map((url) => (
+                <div key={url || Math.random().toString()}>
+                    <img src={url} />
                 </div>
-            ))} */}
+            ))}
         </div>
     );
 };
