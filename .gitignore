@@ -17,3 +17,5 @@ lib
 license-check-summary.txt*
 
 notes.md
+
+**.env
