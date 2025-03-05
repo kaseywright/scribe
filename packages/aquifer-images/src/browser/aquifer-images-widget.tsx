@@ -10,7 +10,7 @@ import { EnvConfigService } from './env-config-service';
 @injectable()
 export class AquiferWidget extends ReactWidget {
     static ID = "AquiferWidget";
-    static LABEL = "Aquifer Widget";
+    static LABEL = "Aquifer Images";
 
     @inject(MessageService)
     protected readonly messageService!: MessageService;
