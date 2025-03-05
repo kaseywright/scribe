@@ -19,7 +19,7 @@ type ResourceImageList = {
 const ImageList: React.FC<ImageListProps> = ({ apiKey, apiUrl, isConfigReady = false }) => {    
     const [urls, setUrls] = useState<string[]>([]);
     const [imageIds, setImageIds] = useState<number[]>([]);
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     // Only fetch images when the config is ready and we have the necessary props
@@ -34,7 +34,7 @@ const ImageList: React.FC<ImageListProps> = ({ apiKey, apiUrl, isConfigReady = f
             if (!apiKey) {
                 console.error('API key is not provided');
                     setError('API key is not configured');
-                    setLoading(false);
+                    // setLoading(false);
 
                 return;
             }
@@ -42,7 +42,7 @@ const ImageList: React.FC<ImageListProps> = ({ apiKey, apiUrl, isConfigReady = f
             if (!apiUrl) {
                 console.error('API URL is not provided');
                     setError('API URL is not configured');
-                    setLoading(false);
+                    // setLoading(false);
                 
                 return;
             }
@@ -65,7 +65,7 @@ const ImageList: React.FC<ImageListProps> = ({ apiKey, apiUrl, isConfigReady = f
                 console.error('Error fetching images:', error);
                 
                     setError('Error loading images from API');
-                    setLoading(false); 
+                    // setLoading(false); 
             }
         }
 
@@ -91,7 +91,7 @@ const ImageList: React.FC<ImageListProps> = ({ apiKey, apiUrl, isConfigReady = f
                     });
                 
                         setUrls(urls);
-                        setLoading(false);
+                        // setLoading(false);
 
 
                         console.log('Images Urls', urls);
@@ -100,7 +100,7 @@ const ImageList: React.FC<ImageListProps> = ({ apiKey, apiUrl, isConfigReady = f
                 console.error('Error fetching url:', error);
                 
                     setError('Error loading urls from API');
-                    setLoading(false);
+                    // setLoading(false);
             }
         }
         if(imageIds.length > 0){
@@ -108,27 +108,14 @@ const ImageList: React.FC<ImageListProps> = ({ apiKey, apiUrl, isConfigReady = f
         }
 
     }, [apiKey, apiUrl, isConfigReady, imageIds]);
-
-
-    if (!isConfigReady) {
-        return <div>Waiting for configuration...</div>;
-    }
-
-    if (loading) {
-        return <div>Loading images...</div>;
-    }
     
     if (error) {
         return <div className="error-message">Error: {error}</div>;
     }
     
-    if (urls.length === 0) {
-        return <div>No images found</div>;
-    }
-    
     return (
         <div>
-            {urls.map((url) => (
+            {urls?.map((url) => (
                 <div key={url || Math.random().toString()}>
                     <img src={url} />
                 </div>
