@@ -6,6 +6,7 @@ interface ImageListProps {
     apiKey?: string;
     apiUrl?: string;
     isConfigReady?: boolean;
+    onImageClick?: (imageUrl: string, bookCode: string) => void;
 }
 
 type ResourceImageId = {
@@ -30,7 +31,7 @@ const AVAILABLE_BOOKS = [
     { code: 'REV', name: 'Revelation' }
 ];
 
-const ImageList: React.FC<ImageListProps> = ({ apiKey, apiUrl, isConfigReady = false }) => {
+const ImageList: React.FC<ImageListProps> = ({ apiKey, apiUrl, isConfigReady = false, onImageClick }) => {
     const [urls, setUrls] = useState<string[]>([]);
     const [imageIds, setImageIds] = useState<number[]>([]);
     const [error, setError] = useState<string | null>(null);
@@ -170,10 +171,90 @@ const ImageList: React.FC<ImageListProps> = ({ apiKey, apiUrl, isConfigReady = f
             <div className="image-grid">
                 {urls.map((url) => (
                     <div key={url || Math.random().toString()} className="image-item">
-                        <img src={url} alt={`Image from ${selectedBook}`} />
+                        <img 
+                            src={url} 
+                            alt={`Image from ${selectedBook}`} 
+                            onClick={() => onImageClick && onImageClick(url, selectedBook)}
+                            className="clickable-image"
+                            title="Click to open in editor"
+                        />
                     </div>
                 ))}
             </div>
+            <style>{`
+                .image-list-container {
+                    padding: 10px;
+                    font-family: var(--theia-ui-font-family);
+                }
+                .book-selector {
+                    margin-bottom: 15px;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                }
+                .book-select {
+                    padding: 5px;
+                    border-radius: 3px;
+                    background-color: var(--theia-dropdown-background);
+                    color: var(--theia-dropdown-foreground);
+                    border: 1px solid var(--theia-dropdown-border);
+                }
+                .refresh-button {
+                    padding: 5px 10px;
+                    background-color: var(--theia-button-background);
+                    color: var(--theia-button-foreground);
+                    border: none;
+                    border-radius: 3px;
+                    cursor: pointer;
+                }
+                .refresh-button:hover {
+                    background-color: var(--theia-button-hoverBackground);
+                }
+                .refresh-button:disabled {
+                    opacity: 0.5;
+                    cursor: not-allowed;
+                }
+                .loading, .no-images, .error-message {
+                    padding: 10px;
+                    margin: 10px 0;
+                    border-radius: 3px;
+                }
+                .loading {
+                    background-color: var(--theia-infoBackground);
+                    color: var(--theia-infoForeground);
+                }
+                .no-images {
+                    background-color: var(--theia-editorWarningBackground);
+                    color: var(--theia-editorWarningForeground);
+                }
+                .error-message {
+                    background-color: var(--theia-errorBackground);
+                    color: var(--theia-errorForeground);
+                }
+                .image-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                    gap: 15px;
+                    margin-top: 15px;
+                }
+                .image-item {
+                    border: 1px solid var(--theia-border);
+                    border-radius: 4px;
+                    overflow: hidden;
+                    background-color: var(--theia-editor-background);
+                }
+                .clickable-image {
+                    width: 100%;
+                    height: auto;
+                    display: block;
+                    cursor: pointer;
+                    transition: transform 0.2s ease;
+                }
+                .clickable-image:hover {
+                    transform: scale(1.02);
+                    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+                }
+            `}</style>
         </div>
     );
 };
