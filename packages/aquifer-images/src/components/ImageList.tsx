@@ -1,12 +1,6 @@
 import * as React from "@theia/core/shared/react";
 import { useState, useEffect } from 'react';
 
-interface ImageData {
-    id: string;
-    url: string;
-    title: string;
-}
-
 // Accept the API key and URL as props instead of using context
 interface ImageListProps {
     apiKey?: string;
@@ -14,8 +8,16 @@ interface ImageListProps {
     isConfigReady?: boolean;
 }
 
+type ResourceImageId = {
+    id: number;
+}
+
+type ResourceImageList = {
+    items: ResourceImageId[]
+}
+
 const ImageList: React.FC<ImageListProps> = ({ apiKey, apiUrl, isConfigReady = false }) => {    
-    const [images, setImages] = useState<ImageData[]>([]);
+    const [imageIds, setImageIds] = useState<number[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -52,13 +54,15 @@ const ImageList: React.FC<ImageListProps> = ({ apiKey, apiUrl, isConfigReady = f
             
             try {
                 const response = await fetch(`${apiUrl}/resources/search?BookCode=GEN&ResourceType=Images&api-key=${apiKey}&languageId=1`);
-                const data = await response.json();
+                const data: ResourceImageList = await response.json();
                 console.log('API response:', data);
                 
                 if (isMounted) {
-                    setImages(Array.isArray(data) ? data : []);
+                    setImageIds(data.items.map((item) => item.id));
                     setLoading(false);
                 }
+
+                console.log('Images Ids', imageIds);
             } catch (error) {
                 console.error('Error fetching images:', error);
                 if (isMounted) {
@@ -87,20 +91,21 @@ const ImageList: React.FC<ImageListProps> = ({ apiKey, apiUrl, isConfigReady = f
         return <div className="error-message">Error: {error}</div>;
     }
     
-    if (images.length === 0) {
+    if (imageIds.length === 0) {
         return <div>No images found</div>;
     }
     
     return (
         <div>
+            hello
 
-            {images.map((image: ImageData) => (
+            {/* {imageIds.map((image: ImageData) => (
                 <div key={image.id || Math.random().toString()}>
                     {image.url && <img src={image.url} alt={image.title || 'Image'} />}
                     {image.title && <p>{image.title}</p>}
 
                 </div>
-            ))}
+            ))} */}
         </div>
     );
 };
