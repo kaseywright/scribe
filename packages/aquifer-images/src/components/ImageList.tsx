@@ -16,81 +16,164 @@ type ResourceImageList = {
     items: ResourceImageId[]
 }
 
+// List of available books
+const AVAILABLE_BOOKS = [
+    { code: 'GEN', name: 'Genesis' },
+    { code: 'EXO', name: 'Exodus' },
+    { code: 'LEV', name: 'Leviticus' },
+    { code: 'NUM', name: 'Numbers' },
+    { code: 'DEU', name: 'Deuteronomy' },
+    { code: 'MAT', name: 'Matthew' },
+    { code: 'MRK', name: 'Mark' },
+    { code: 'LUK', name: 'Luke' },
+    { code: 'JHN', name: 'John' },
+    { code: 'REV', name: 'Revelation' }
+];
+
 const ImageList: React.FC<ImageListProps> = ({ apiKey, apiUrl, isConfigReady = false }) => {
     const [urls, setUrls] = useState<string[]>([]);
     const [imageIds, setImageIds] = useState<number[]>([]);
     const [error, setError] = useState<string | null>(null);
+    const [selectedBook, setSelectedBook] = useState<string>('GEN');
+    const [loading, setLoading] = useState<boolean>(false);
 
-    // Only fetch images when the config is ready and we have the necessary props
-    useEffect(() => {
-        // If config isn't ready yet, don't try to fetch
-        if (!isConfigReady) {
+    // Function to fetch images for the selected book
+    const fetchImagesForBook = async () => {
+        if (!isConfigReady || !apiKey || !apiUrl) {
             return;
         }
-        async function fetchImages() {
-            if (!apiKey) {
-                console.error('API key is not provided');
-                setError('API key is not configured');
-                return;
-            }
-
-            if (!apiUrl) {
-                console.error('API URL is not provided');
-                setError('API URL is not configured');
-                return;
-            }
+        
+        setLoading(true);
+        setUrls([]);
+        setImageIds([]);
+        setError(null);
+        
+        try {
+            console.log(`Fetching images for book: ${selectedBook}`);
             console.log('Using API URL:', apiUrl);
             console.log('API Key available:', apiKey ? 'Yes' : 'No');
-            try {
-                const response = await fetch(`${apiUrl}/resources/search?BookCode=GEN&ResourceType=Images&api-key=${apiKey}&languageId=1`);
-                const data: ResourceImageList = await response.json();
-                console.log('API response:', data.items);
-                setImageIds(data.items.map((item) => item.id));
-            } catch (error) {
-                console.error('Error fetching images:', error);
-                setError('Error loading images from API');
+            
+            const response = await fetch(`${apiUrl}/resources/search?BookCode=${selectedBook}&ResourceType=Images&api-key=${apiKey}&languageId=1`);
+            
+            if (!response.ok) {
+                throw new Error(`API request failed with status ${response.status}`);
             }
+            
+            const data: ResourceImageList = await response.json();
+            console.log('API response:', data.items);
+            
+            if (data.items && data.items.length > 0) {
+                setImageIds(data.items.map((item) => item.id));
+            } else {
+                setLoading(false);
+                console.log('No images found for this book');
+            }
+        } catch (error) {
+            console.error('Error fetching images:', error);
+            setError('Error loading images from API');
+            setLoading(false);
         }
-        fetchImages();
-    }, [apiKey, apiUrl, isConfigReady]);
-
+    };
+    
+    // Fetch images when the selected book changes or when config becomes ready
     useEffect(() => {
-        // If config isn't ready yet, don't try to fetch
-        if (!isConfigReady) {
+        fetchImagesForBook();
+    }, [selectedBook, apiKey, apiUrl, isConfigReady]);
+
+    // Fetch image URLs when we have image IDs
+    useEffect(() => {
+        if (!isConfigReady || !apiKey || !apiUrl || imageIds.length === 0) {
             return;
         }
-        async function fetchImageUrls() {
+        
+        const fetchImageUrls = async () => {
             try {
-                console.log("imageIds", imageIds);
-                imageIds.map(async id => {
+                console.log("Fetching URLs for image IDs:", imageIds);
+                
+                // Clear existing URLs
+                setUrls([]);
+                
+                // Create an array of promises for all fetch requests
+                const promises = imageIds.map(async id => {
                     const resp = await fetch(`${apiUrl}/resources/${id}?api-key=${apiKey}`);
+                    if (!resp.ok) {
+                        throw new Error(`Failed to fetch image ${id}`);
+                    }
                     const respData = await resp.json();
-                    console.log("respData", respData);
-                    const url =respData.content?.url;
-                    setUrls(urls=> [...urls, url]);
+                    console.log("Image data for ID", id, ":", respData);
+                    return respData.content?.url;
                 });
+                
+                // Wait for all promises to resolve
+                const results = await Promise.all(promises);
+                
+                // Filter out any undefined URLs
+                const validUrls = results.filter(url => url);
+                setUrls(validUrls);
+                setLoading(false);
+                
+                console.log("Loaded URLs:", validUrls);
             } catch (error) {
-                console.error('Error fetching url:', error);
-                setError('Error loading urls from API');
+                console.error('Error fetching URLs:', error);
+                setError('Error loading image URLs from API');
+                setLoading(false);
             }
-        }
-        if (imageIds.length > 0) {
-            fetchImageUrls();
-        }
-
+        };
+        
+        fetchImageUrls();
     }, [apiKey, apiUrl, isConfigReady, imageIds]);
+
+    // Handle book selection change
+    const handleBookChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedBook(event.target.value);
+    };
+
+    if (!isConfigReady) {
+        return <div>Waiting for configuration...</div>;
+    }
 
     if (error) {
         return <div className="error-message">Error: {error}</div>;
     }
 
     return (
-        <div>
-            {urls?.map((url) => (
-                <div key={url || Math.random().toString()}>
-                    <img src={url} />
-                </div>
-            ))}
+        <div className="image-list-container">
+            <div className="book-selector">
+                <label htmlFor="book-select">Select a Book: </label>
+                <select 
+                    id="book-select" 
+                    value={selectedBook} 
+                    onChange={handleBookChange}
+                    className="book-select"
+                >
+                    {AVAILABLE_BOOKS.map(book => (
+                        <option key={book.code} value={book.code}>
+                            {book.name}
+                        </option>
+                    ))}
+                </select>
+                <button 
+                    onClick={fetchImagesForBook} 
+                    className="refresh-button"
+                    disabled={loading}
+                >
+                    {loading ? 'Loading...' : 'Refresh Images'}
+                </button>
+            </div>
+            
+            {loading && <div className="loading">Loading images...</div>}
+            
+            {!loading && urls.length === 0 && (
+                <div className="no-images">No images found for {AVAILABLE_BOOKS.find(b => b.code === selectedBook)?.name || selectedBook}</div>
+            )}
+            
+            <div className="image-grid">
+                {urls.map((url) => (
+                    <div key={url || Math.random().toString()} className="image-item">
+                        <img src={url} alt={`Image from ${selectedBook}`} />
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
