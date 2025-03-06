@@ -168,8 +168,7 @@ export class AquiferWidget extends ReactWidget {
         
         return (
             <div id='aquifer-container'>
-                <h2>Aquifer Bible Images</h2>
-                <p>Click on an image to open it in the editor</p>
+                <p className="px-2">Click on an image to open it in the editor</p>
                 <ImageList 
                     apiKey={this.apiKey}
                     apiUrl={this.apiUrl}
