@@ -29,6 +29,7 @@ export class ImageViewerWidget extends Widget {
         this.addClass('aquifer-image-viewer');
         this.node.style.overflow = 'auto';
         this.node.style.padding = '0';
+        this.title.iconClass = 'fa fa-image';
         this.update();
     }
 
