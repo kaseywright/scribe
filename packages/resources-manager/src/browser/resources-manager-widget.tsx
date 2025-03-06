@@ -65,7 +65,6 @@ export class ResourcesViewerWidget extends ReactWidget {
     this.title.closable = true;
     this.title.iconClass = codicon("flame");
     this.node.tabIndex = 0;
-    this.openDialog();
   }
 
   protected onAfterAttach(msg: Message): void {
