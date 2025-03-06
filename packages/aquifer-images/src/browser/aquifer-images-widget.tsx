@@ -96,7 +96,7 @@ export class AquiferWidget extends ReactWidget {
         this.title.label = AquiferWidget.LABEL;
         this.title.caption = AquiferWidget.LABEL;
         this.title.closable = true;
-        this.title.iconClass = 'fa fa-window-maximize';
+        this.title.iconClass = 'fa fa-image';
         
         // Start loading the configuration
         this.loadConfig();
