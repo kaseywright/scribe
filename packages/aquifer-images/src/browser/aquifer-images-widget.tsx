@@ -11,20 +11,20 @@ import { CommandRegistry } from '@theia/core/lib/common/command';
 import { WidgetManager } from '@theia/core/lib/browser/widget-manager';
 import { ApplicationShell } from '@theia/core/lib/browser/shell/application-shell';
 import { Widget } from '@theia/core/lib/browser/widgets/widget';
-import ImageList from '../components/ImageList';
+import ImageList, { ResourceImage } from '../components/ImageList';
 import { EnvConfigService } from './env-config-service';
 
 // Custom widget for displaying images directly in the editor
 export class ImageViewerWidget extends Widget {
     constructor(
         id: string,
-        private readonly imageUrl: string,
+        private readonly image: ResourceImage,
         private readonly bookCode: string
     ) {
         super();
         this.id = id;
-        this.title.label = `Image - ${bookCode}`;
-        this.title.caption = `Image from ${bookCode}`;
+        this.title.label = `${this.image.name} - Image`;
+        this.title.caption = `Image from ${this.bookCode}`;
         this.title.closable = true;
         this.addClass('aquifer-image-viewer');
         this.node.style.overflow = 'auto';
@@ -35,8 +35,8 @@ export class ImageViewerWidget extends Widget {
     protected onAfterAttach(): void {
         // Create image element
         const img = document.createElement('img');
-        img.src = this.imageUrl;
-        img.alt = `Biblical image from ${this.bookCode}`;
+        img.src = this.image.url;
+        img.alt = `Image of ${this.image.name}`;
         img.style.maxWidth = '100%';
         img.style.maxHeight = '100vh';
         img.style.objectFit = 'contain';
@@ -125,13 +125,13 @@ export class AquiferWidget extends ReactWidget {
     }
 
     // Method to open an image directly in the editor
-    async openImageInEditor(imageUrl: string, bookCode: string): Promise<void> {
+    async openImageInEditor(image: ResourceImage, bookCode: string): Promise<void> {
         try {
             // Create a unique ID for the widget
             const id = `aquifer-image-${bookCode}-${Date.now()}`;
             
             // Create a new widget to display the image
-            const imageWidget = new ImageViewerWidget(id, imageUrl, bookCode);
+            const imageWidget = new ImageViewerWidget(id, image, bookCode);
             
             // Add the widget to the shell
             this.shell.addWidget(imageWidget, { area: 'main' });
@@ -139,7 +139,7 @@ export class AquiferWidget extends ReactWidget {
             // Activate the widget
             this.shell.activateWidget(id);
             
-            this.messageService.info(`Opened image from ${bookCode}`);            
+            this.messageService.info(`Opened image ${image.name} from ${bookCode}`);            
         } catch (error) {
             console.error('Error opening image in editor:', error);
             this.messageService.error(`Failed to open image: ${error}`);            
@@ -173,7 +173,7 @@ export class AquiferWidget extends ReactWidget {
                     apiKey={this.apiKey}
                     apiUrl={this.apiUrl}
                     isConfigReady={this.configReady}
-                    onImageClick={(imageUrl, bookCode) => this.openImageInEditor(imageUrl, bookCode)}
+                    onImageClick={(image, bookCode) => this.openImageInEditor(image, bookCode)}
                 />
             </div>
         );

@@ -6,15 +6,30 @@ interface ImageListProps {
     apiKey?: string;
     apiUrl?: string;
     isConfigReady?: boolean;
-    onImageClick?: (imageUrl: string, bookCode: string) => void;
+    onImageClick?: (image: ResourceImage, bookCode: string) => void;
 }
 
-type ResourceImageId = {
+type BibleBookImageList = {
+    items: ResourceContentImage[]
+}
+
+type ResourceContentImage = {
     id: number;
+    name: string;
+    localizedName: string;
+    mediaType: string;
+    languageCode: string;
+    // grouping (if wanted)
 }
 
 type ResourceImageList = {
-    items: ResourceImageId[]
+    items: ResourceImage[]
+}
+
+export type ResourceImage = {
+    id: number;
+    name: string;
+    url: string;
 }
 
 // List of available books
@@ -32,7 +47,9 @@ const AVAILABLE_BOOKS = [
 ];
 
 const ImageList: React.FC<ImageListProps> = ({ apiKey, apiUrl, isConfigReady = false, onImageClick }) => {
-    const [urls, setUrls] = useState<string[]>([]);
+    const [images, setImages] = useState<ResourceImageList>({
+        items: []
+    });
     const [imageIds, setImageIds] = useState<number[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [selectedBook, setSelectedBook] = useState<string>('GEN');
@@ -45,7 +62,7 @@ const ImageList: React.FC<ImageListProps> = ({ apiKey, apiUrl, isConfigReady = f
         }
         
         setLoading(true);
-        setUrls([]);
+        setImages({ items: [] });
         setImageIds([]);
         setError(null);
         
@@ -60,7 +77,7 @@ const ImageList: React.FC<ImageListProps> = ({ apiKey, apiUrl, isConfigReady = f
                 throw new Error(`API request failed with status ${response.status}`);
             }
             
-            const data: ResourceImageList = await response.json();
+            const data: BibleBookImageList = await response.json();
             console.log('API response:', data.items);
             
             if (data.items && data.items.length > 0) {
@@ -87,12 +104,12 @@ const ImageList: React.FC<ImageListProps> = ({ apiKey, apiUrl, isConfigReady = f
             return;
         }
         
-        const fetchImageUrls = async () => {
+        const fetchImages = async () => {
             try {
                 console.log("Fetching URLs for image IDs:", imageIds);
                 
                 // Clear existing URLs
-                setUrls([]);
+                setImages({ items: [] });
                 
                 // Create an array of promises for all fetch requests
                 const promises = imageIds.map(async id => {
@@ -102,18 +119,22 @@ const ImageList: React.FC<ImageListProps> = ({ apiKey, apiUrl, isConfigReady = f
                     }
                     const respData = await resp.json();
                     console.log("Image data for ID", id, ":", respData);
-                    return respData.content?.url;
+                    return {
+                        id: respData.id,
+                        name: respData.name,
+                        url: respData.content?.url
+                    };
                 });
                 
                 // Wait for all promises to resolve
                 const results = await Promise.all(promises);
                 
                 // Filter out any undefined URLs
-                const validUrls = results.filter(url => url);
-                setUrls(validUrls);
+                const validImages = results.filter(item => item?.url);
+                setImages({ items: validImages });
                 setLoading(false);
                 
-                console.log("Loaded URLs:", validUrls);
+                console.log("Loaded Valid images:", validImages);
             } catch (error) {
                 console.error('Error fetching URLs:', error);
                 setError('Error loading image URLs from API');
@@ -121,7 +142,7 @@ const ImageList: React.FC<ImageListProps> = ({ apiKey, apiUrl, isConfigReady = f
             }
         };
         
-        fetchImageUrls();
+        fetchImages();
     }, [apiKey, apiUrl, isConfigReady, imageIds]);
 
     // Handle book selection change
@@ -164,17 +185,17 @@ const ImageList: React.FC<ImageListProps> = ({ apiKey, apiUrl, isConfigReady = f
             
             {loading && <div className="loading">Loading images...</div>}
             
-            {!loading && urls.length === 0 && (
+            {!loading && images.items.length === 0 && (
                 <div className="no-images">No images found for {AVAILABLE_BOOKS.find(b => b.code === selectedBook)?.name || selectedBook}</div>
             )}
             
             <div className="image-grid">
-                {urls.map((url) => (
-                    <div key={url || Math.random().toString()} className="image-item">
+                {images.items.map((image) => (
+                    <div key={image.id || Math.random().toString()} className="image-item">
                         <img 
-                            src={url} 
+                            src={image.url} 
                             alt={`Image from ${selectedBook}`} 
-                            onClick={() => onImageClick && onImageClick(url, selectedBook)}
+                            onClick={() => onImageClick && onImageClick(image, selectedBook)}
                             className="clickable-image"
                             title="Click to open in editor"
                         />
