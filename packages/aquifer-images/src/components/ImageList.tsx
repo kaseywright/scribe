@@ -178,8 +178,9 @@ const ImageList: React.FC<ImageListProps> = ({ apiKey, apiUrl, isConfigReady = f
                     onClick={fetchImagesForBook} 
                     className="refresh-button"
                     disabled={loading}
+                    title="Refresh images"
                 >
-                    {loading ? 'Loading...' : 'Refresh Images'}
+                    {loading ? <i className="fa fa-refresh fa-spin" aria-hidden="true"></i> : <i className="fa fa-refresh" aria-hidden="true"></i>}
                 </button>
             </div>
             
